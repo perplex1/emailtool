@@ -1,0 +1,17 @@
+{
+  "functions": {
+    "api/generate-image.js": {
+      "maxDuration": 60
+    }
+  },
+  "routes": [
+    {
+      "src": "/(.*)\\.js$",
+      "headers": {
+        "cache-control": "public, max-age=31536000",
+        "access-control-allow-origin": "*"
+      },
+      "dest": "/public/$1.js"
+    }
+  ]
+}
