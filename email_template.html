@@ -1,0 +1,3947 @@
+<!DOCTYPE html>
+  <!-- For webflow, you need to put this at top of your css:
+.mainicons,
+.mainicons .hamburger-menu,
+.mainicons .fullscreen-toggle,
+.mainicons .hamburger-menu div,
+.mainicons svg {
+    box-sizing: content-box !important;
+-and-
+you need to remove position:absolute from 'close' class to fix X's on pop up menus
+}-->
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml"
+    xmlns:o="urn:schemas-microsoft-com:office:office">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
+    <meta name="format-detection" content="telephone=no" />
+    <title>Email Mockup Tool</title>
+    <!-- External resources -->
+
+    <link rel="icon" type="image/x-icon" href="https://www.Aflac.com/_Global-Assets/images/favicons/favicon.ico"
+        sizes="64x64" />
+    <link rel="stylesheet" href="https://use.typekit.net/bff5ghi.css" />
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Roboto:ital,wght@0,100;0,300;0,400;0,500;0,700;0,900;1,100;1,300;1,400;1,500;1,700;1,900&display=swap"
+        rel="stylesheet" />
+
+    <style>
+        /* MAIN CSS */
+
+        /* Base styles */
+        body {
+            font-family: 'proxima-nova', Arial, Helvetica, sans-serif;
+            color: #555555;
+            margin: 0px;
+            padding: 0px;
+            /* background: #cccccca1; */
+            background: #ffffff;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+            /* background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-0 -0 10 10'%3E%3Cpath d='M 0 1 L 10 1 M 1 0 L 1 10' stroke='%23404040' stroke-dasharray='1' stroke-width='0.1' /%3E%3C/svg%3E"); */
+            /* background-size: 10px 10px; */
+            transition: background .8s ease-in-out;
+        }
+
+        /* collapsed body */
+        .backgroundbody{
+            background: #f1f3f4 !important;
+            background-image: none !important;
+            //overflow: scroll;
+        }
+
+        /* Layout styles */
+        .container {
+            position: relative;
+            max-width: 1200px;
+            margin-left: auto;
+            margin-right: auto;
+            display: grid;
+            grid-template-columns: 1fr 1fr auto;
+            gap: 20px;
+            transition:min-width 1s 1s ease-out;
+            /* background-color: transparent; */
+            width: 100%;
+            height: 100vh;
+        }
+
+        .container > div:nth-child(1){
+            border-right: 2px solid #555;
+        }
+
+
+
+
+        .pane {
+            padding: 20px 0px 0px 20px;
+            align-items: center;
+            border-radius: 8px;
+            transition: all .3s ease-in-out;
+        }
+
+
+        .pane2 {
+            align-items: center;
+            border-radius: 8px;
+            background-color: #f1f3f4;
+            transition: border .3s ease-in-out;
+            margin-bottom: 30px;
+        }
+       
+
+
+        .input-pane {
+            /* min-width: 540px; */
+            /* background-color: #ECFAFF; */
+            height: 100vh;
+            overflow-y: hidden;
+            z-index: 999;
+            margin: 20px 0px 20px 0px;
+            border-radius: 8px;
+            /* outline: 1px solid #788896; */
+            /* box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px; */
+            transform: translateX(0px);
+            transition: transform .3s ease-in-out;     
+            opacity: 1; 
+            position: relative;
+            padding-right: 25px;
+        }
+
+        .scrollbox {
+            visibility: hidden;
+            }
+
+        .scrollbox-content,
+        .scrollbox:hover,
+        .scrollbox:focus {
+            visibility: visible;
+            }
+
+        .input-pane:hover{
+            /* outline: 2px solid #788896; */
+            overflow-y: scroll;
+            padding-right: 5px;
+
+        }
+
+
+
+        .hrdiv {
+            margin: 0px auto 0px auto;
+            width: 100%;
+            size: .5px;
+            border-top: 3px solid #ccc;
+
+        }
+
+
+
+        /* Input styles */
+
+        :root {
+            --input-group-spacing: 60px;
+            --label-input-spacing: 5px;
+        }
+
+        .input-group {
+            position: relative;
+            padding: 5px 15px 10px 10px;
+            margin-bottom: 15px;
+            background-color: #e0e0e0;
+            position: relative;  /* Ensure this is present */
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: stretch;
+            transition: all .1s ease-in-out;
+            isolation: isolate;  /* Add this to create a new stacking context */
+            transition: all 0.3s ease-in-out;
+            transition: transform 0.2s ease;
+            will-change: transform;  /* Optimize for animations */
+            min-width: 460px;
+        }
+
+        /* Base collapsed state */
+            .input-group.collapsed * {
+                display: none;
+            }
+
+            /* Elements to keep visible */
+            .input-group.collapsed >  label,
+            .input-group.collapsed >  svg,
+            .input-group.collapsed > .collapse-arrow {
+                display: block;
+            }
+
+            /* Ensure proper positioning for visible elements */
+            .input-group.collapsed {
+                height: auto;
+                min-height: 40px;
+                padding: 5px 15px;
+            }
+
+            /* Keep SVG icons visible and properly positioned */
+            .input-group.collapsed svg {
+                display: block;
+            }
+
+        .collapse-arrow {
+            position: absolute;
+            right: 40px;
+            top: 10px;
+            cursor: pointer;
+            transition: transform 0.3s ease;
+            z-index: 2;  /* Ensure it stays above other elements */
+        }
+
+        .collapse-arrow.collapsed {
+            transform: rotate(-90deg);
+        }
+
+        .collapse-all-button {
+            background: #00E15A;
+            color: rgb(0, 0, 0);
+            border: none;
+            padding: 8px 15px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-family: 'roboto';
+            font-weight: bolder;
+            font-size: 12px;
+            margin-bottom: 20px;
+        }
+
+        .input-group:hover {
+            background-color: #f1f3f4;
+            //border: 1px dashed #788896;
+        }
+
+        .input-group-subandpre {
+            //background-color: #f1f3f4;
+            
+        }
+
+        .input-group-subandpre:hover {
+            //border: 1px dashed #788896;
+        }
+
+        .input-group label {
+            font-weight: 600;
+            color: #000;
+            font-size: 14px;
+            font-family: 'roboto','proxima-nova';
+            margin: 5px 0px 5px 0px;
+        }
+
+
+        
+
+        .input-group input,
+        .input-group textarea {
+            border: none;
+            border-radius: 8px;
+            font-size: 14px;
+            line-height: 1.5;
+            font-family: 'proxima-nova', Arial, Helvetica, sans-serif;
+            color: #000000;
+            background-color: #fff;
+            overflow: hidden;
+            resize: none;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            width: 100%;
+            box-sizing: border-box;
+            padding: 10px;
+        }
+
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+
+
+        .input-group input:focus,
+        .input-group textarea:focus {
+            box-shadow: 0 0 0 2px rgba(0, 112, 169, 0.1);
+            outline: none;
+            border-color: #0070A9;
+            border: 2px solid #00A7E1;
+            outline: none;
+            filter: brightness(1);
+            background-color: #fff;
+        }
+
+        .input-group textarea {
+            resize: vertical;
+        }
+
+        .input-group.dragging {
+            opacity: 0.9;
+            background-color: #f0f0f0;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+            cursor: grabbing;
+            /* Remove any margins while dragging */
+            margin: 0;
+            /* Improve performance */
+            transform: translate3d(0, 0, 0);
+        }
+
+        .input-group:not(.dragging) {
+            transform: translateY(0);
+        }
+
+        #image_preview img {
+        max-width: 100%;
+        height: auto;
+        margin-bottom: 20px;
+    }
+
+#image_controls {
+    margin-top: 10px;
+}
+
+#image_controls button {
+    margin-right: 5px;
+    padding: 5px 10px;
+    background-color: #0070A9;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    cursor: pointer;
+}
+
+#image_controls button:hover {
+    background-color: #00A7E1;
+}
+
+input[type="file"] {
+    display: none;
+}
+
+
+.input-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+.image-controls-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+
+.image-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-start;
+}
+
+/* Remove the previous individual button styles and use a single class */
+.image_upload,
+.image_uploadGen {
+    width: auto;
+    min-width: 120px;
+    border-radius: 8px;
+    border: 2px solid rgba(0, 112, 169, .5);
+    background-color: #ffffff;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #0070A9 !important;
+    font-family: 'roboto', 'proxima-nova', Arial, Helvetica, sans-serif;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: bolder;
+    margin: 0; /* Add this to override any margin */
+}
+
+.icon-button-image {
+    display: inline-flex;
+    align-items: center;
+    margin-right: 5px;
+}
+
+
+
+.icon-button-image svg {
+    margin-right: 3px;
+}
+
+        .drag-placeholder {
+            background-color: #f9f9f9;
+            border: 2px dashed #ccc;
+            border-radius: 8px;  /* Match input-group */
+            margin: 0 0 15px 0;  /* Match input-group margin */
+            transition: all 0.2s ease;
+            pointer-events: none;  /* Prevent interference with dragging */
+        }
+
+        .char-count {
+            /*~~~~~~~~~~~~~~~~~display none to hide to show character count~~~~~~~~~~~~~~~~~*/
+            border-radius: 0px 4px 0px 6px;;
+            line-height: 14px;
+            font-weight: bolder;
+            font-family: 'proxima-nova', Arial, Helvetica, sans-serif;
+            font-size: 11px;
+            right: 0px;
+            display: flex;
+            position: absolute;
+            padding: 3px 2px 2px 3px;
+            box-sizing: border-box;
+            justify-content: space-around;
+            background-color: #f1f3f4;
+            color: #000;
+            /* border-left: 4px solid #e0e0e0;
+            border-bottom: 4px solid #e0e0e0; */
+            box-sizing: border-box;
+        }
+
+        .grabbable-svg {
+            position: absolute;
+            bottom: 0px;
+            /* Adjust based on your design */
+            right: 8px;
+            /* Adjust based on your design */
+            width: 40px;
+            /* Adjust size as needed */
+            height: 40px;
+            /* Adjust size as needed */
+            cursor: grab;
+            color: #ccc;
+            transition: all 0.3s;
+        }
+
+        .grabbable-svg:active {
+            cursor: grabbing;
+            color: #00A7E1;
+        }
+
+        .grabbable-svg:hover {
+            color: #00A7E1;
+        }
+
+
+        #all-inputs-container {
+            display: flex;
+            flex-direction: column;
+            order: revert;
+            
+        }
+
+        #draggable-container {
+            flex-grow: 1;
+            overflow-y: visible;
+            overflow-x: hidden;
+            position: relative;
+            width: 100%;
+
+        }
+
+
+
+        /* Preview pane styles */
+        #template-preview {
+            //overflow-y: hidden;
+            word-wrap: normal;
+            //border: 1px solid #788896;    
+            z-index: 1000;
+           
+        }
+
+        #template-preview.pane{
+            //padding-right: 0px;
+            //background-color: #f1f3f4;
+            margin: 0px 0px 20px 00px;
+            transition: background-color 1.5s ease-OUT, border 1.5s ease-OUT;
+            min-width: 540px;
+            //border: 1px dashed #788896;
+            //padding-right: 20px;
+            min-width: 540px;
+            height: 100vh;
+            transform: translateX(0px);
+            transition: transform .3s ease-in-out, border-color 3s ease-out;
+
+        }
+
+        #template-preview.pane:hover{
+            //padding-right: 0px;
+            //overflow-y: visible;
+        }
+
+        #template-preview.pane.collapsed {
+            background-color: transparent;
+            margin-left: auto;
+            margin-right: auto;
+            //border: 1px dashed #f1f3f4;
+            //border-radius: 0px;
+            box-shadow: none;
+            display: inline-block;
+            overflow: visible;
+            height: initial;
+            padding-right: 20px;
+            transition: transform .3s ease-in-out, border-color 3s ease-out;
+
+
+        }
+
+        #template-preview.pane.collapsed:nth-child(1) {
+            transform: translateX(-50%);
+            transition: transform .3s ease-in-out;
+            overflow: visible;
+            
+        }
+
+        #template-preview.pane.collapsed:hover {
+            outline: 1px dashed #788896;
+            overflow: visible;
+        }
+
+
+        .tableinbox.collapsed {
+            border: 1px solid #f1f3f4;
+            border-radius: 0px;
+            width: 540px;
+           
+        }
+       
+        .tableinbox2.collapsed {
+            border: 1px solid #f1f3f4;
+            border-radius: 0px;
+            width: 540px;
+        }
+
+
+        #template-preview td {
+            padding: 0px;
+            padding-top: 0px;
+
+        }
+
+        #template-preview h1 {
+            margin: 0;
+            font-size: 48px;
+            line-height: 50px;
+            color: #0070A9;
+            text-align: left;
+            padding: 00;
+        }
+
+        #template-preview p {
+            font-size: 16px;
+            line-height: 28px;
+            color: #555555;
+            text-align: left;
+            padding: 30px 0;
+            margin: 0;
+        }
+
+        #template-preview .footer-wrapper {
+            background-color: #F1F3F4;
+            font-family: Arial, Helvetica, sans-serif;
+            border-radius: 0px 0px 8px 8px;
+            padding-top: 38px;
+            height: 100%;
+        }
+
+        /* Preview Button style */
+        .buttonblock {
+            display: block;
+            padding: 12px 10px;
+            background-color: #0070A9;
+            border: 0px solid #0070A9;
+            border-radius: 8px;
+            color: #FFFFFF;
+            font-family: 'proxima-nova', Arial, Helvetica, sans-serif;
+            font-size: 16px;
+            line-height: 19px;
+            font-weight: 700;
+            text-align: center;
+            text-decoration: none;
+            -webkit-text-size-adjust: none;
+            white-space: normal;
+            cursor: pointer;
+            width: 250px;
+            margin: 20px auto 20px auto;
+        }
+
+
+
+        .toggle-container {
+            position: absolute;
+            right: 10px;
+            top: -20px;
+            z-index: 2;  /* Add this */
+            transform: translateY(0);  /* Add this to force a new positioning context */
+        }
+
+        .toggle-container input[type=checkbox] {
+            height: 0;
+            width: 0;
+            visibility: hidden;
+        }
+
+        .toggle-container label {
+            cursor: pointer;
+            text-indent: -9999px;
+            width: 30px;
+            height: 15px;
+            background: #ccc;
+            display: block;
+            border-radius: 100px;
+            position: relative;
+        }
+
+/* Adjust the circle positioning and animation */
+.toggle-container label:after {
+    content: '';
+    position: absolute;
+    top: 2.5px;
+    left: 2.5px; /* Changed from right: 0px to left: 2.5px */
+    width: 10px;
+    height: 10px;
+    background: #fff;
+    border-radius: 90px;
+    transition: 0.3s;
+}
+
+.toggle-container input:checked + label {
+    background: #0070A9;
+}
+
+/* Adjust the checked state positioning */
+.toggle-container input:checked + label:after {
+    left: calc(100% - 12.5px); /* Changed from -2.5px and removed transform */
+}
+
+.toggle-container label:active:after {
+    width: 15px; /* Reduced from 25px to maintain proportions */
+}
+
+        .placeholder-toggle {
+            visibility: hidden;
+        }
+
+
+
+
+
+
+
+
+
+
+        /* Misc styles */
+        h1 {
+            margin-top: 0;
+            margin-bottom: 0px;
+            color: #0070A9;
+            font-size: 48px;
+            line-height: 50px;
+            font-weight: 700;
+        }
+
+        h2 {
+            margin-top: 0;
+            margin-bottom: 0px;
+            color: #0070A9;
+            font-size: 28px;
+            line-height: 36px;
+            font-weight: 700;
+        }
+
+        h3 {
+            margin-top: 0;
+            margin-bottom: 0px;
+            color: #0070A9;
+            font-size: 18px;
+            line-height: 22px;
+            font-weight: 700;
+        }
+
+        h4 {
+            margin-top: 0;
+            margin-bottom: 0px;
+            color: #0070A9;
+            line-height: 28px;
+            font-weight: 700;
+            display:unset;
+        }
+
+        ul {
+            display: block;
+            margin-left: 0;
+            margin-right: 0;
+            margin-bottom: -12px;
+            padding-left: 30px;
+            padding-top: 0;
+            color: #555555;
+        }
+
+        .filename-display, #filename-display {
+            color: #a2adb8;
+            font-size: 12px;
+            font-family: 'roboto';
+            font-weight: normal;
+            margin-bottom: 20px;
+
+        }
+
+        /* Scrollbars */
+        /* width */
+        ::-webkit-scrollbar {
+            width: 20px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+
+        /* Handle */
+        ::-webkit-scrollbar-thumb {
+            background-color: #ccc;
+            border-radius: 15px;
+            border: 6px solid transparent;
+            background-clip: content-box;
+            transition: background-color 0.3s ease;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background-color: #888;
+        }
+
+
+
+
+
+
+        /* PREVIEW PANE COLLAPSE CSS */
+
+
+        .input-pane.collapsed {
+            padding-right: 0px;
+            border: 0px;
+        }
+
+        .input-pane.collapsed:nth-child(1) {
+            transform: translateX(-1200px);
+        }
+
+
+        .container.collapsed {
+            //background-color: #f1f3f4;
+            min-width: 100%;
+            height: 100vh;
+            transition: min-width 1s 1s ease-out;
+            }
+
+        .container.collapsed::before {
+            min-width: 100%;
+            }
+
+        .container.collapsed::after {
+            min-width: 100%;
+        }
+
+
+
+
+        /* AI SUGGESTION AND ROLE CSS */
+
+        .button-container {
+            margin-top: 5px;
+            margin-bottom: 0px;
+        }
+
+        .ai-suggest,
+        .restore-original {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            font-family: 'roboto';
+            margin-top: 5px;
+            margin-right: 5px;
+            padding: 8px;
+            border-radius: 8px;
+            cursor: pointer;
+            font-size: 12px;
+            font-weight: 500;
+            transition: all 0.2s ease-in-out 0s;
+            left: 0px;
+            top: 0px;
+        }
+
+        .ai-suggest {
+            background-color: #0070A9;
+            color: #fff;
+            border: none;
+            font-weight: bolder;
+        }
+
+        .ai-suggest:disabled {
+            background-color: #cccccc;
+            cursor: not-allowed;
+
+        }
+
+        .ai-suggest:hover {
+            background-color: #00A7E1;
+            color: #ffffff;
+            margin-left: 0px;
+
+        }
+
+        .restore-original {
+            border: .5px solid #d010101e;
+            color: #D01010;
+        }
+
+        .restore-original:hover {
+            border: 0;
+            background-color: #D01010;
+            margin-left: 0px;
+            color: #ffffff;
+
+        }
+
+        .ai-suggest:active,
+        .restore-original:active {
+            transform: scale(0.90);
+        }
+
+        .keep-suggestion {
+            position: relative;
+            font-family: 'roboto';
+            margin-right: 10px;
+            padding: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-size: 11px;
+            font-weight: 500;
+            transition: all 0.2s ease-in-out 0s;
+            background-color: #E8FFF1;
+            border: .05px solid #00e15a4a;
+            color: #025C3E;
+        }
+
+        .keep-suggestion:hover {
+            background-color: #00E15A;
+            color: #ffffff;
+            margin-left: 0px;
+        }
+
+        .keep-suggestion:active {
+            transform: scale(0.90);
+        }
+
+
+        /* INBOX CSS */
+
+        .gmail-mock {
+            position: relative;
+            margin-bottom: 20px;
+            box-sizing: border-box;
+        }
+
+        .tableinbox {
+            border-spacing: 0px;
+            border-collapse: separate;
+            overflow: hidden;
+            width: 100%;
+            padding-bottom: 10px;
+            background-color: #fff;
+            border-radius: 6px;
+            border: 1px dashed #788896;
+            //min-width: 540px;
+            margin-bottom: 20px;
+           
+
+        }
+
+        .tableinbox2 {
+            border-spacing: 0px;
+            border-collapse: separate;
+            overflow: hidden;
+            width: 100%;
+            background-color: #fff;
+            border-radius: 6px;
+            border: 1px dashed #788896;
+            //min-width: 540px;
+            margin-bottom: 20px;
+
+        }
+
+        .tableinbox th {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .email-preview-container {
+            width: 100%;
+            height: 60px;
+            /* Adjust as needed */
+            box-sizing: border-box;
+        }
+
+        .favicon-container {
+            position: absolute;
+            left: 0;
+            top: 50%;
+            transform: translateY(-50%);
+            width: 50px;
+            text-align: center;
+        }
+
+        .email-content-wrapper {
+            position: absolute;
+            left: 90px;
+            right: 0;
+            top: 0;
+            bottom: 0;
+            overflow: hidden;
+        }
+
+        .sender,
+        .subject,
+        .preheader {
+            position: absolute;
+            left: 0;
+            right: 0;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        .sender {
+            top: 4px;
+            font-weight: bold;
+            font-size: 16px;
+            color: #333;
+        }
+
+        .subject {
+            top: 27px;
+            font-weight: bold;
+            color: #333;
+        }
+
+        .preheader {
+            top: 47px;
+            color: #788896;
+            font-weight: 500;
+        }
+
+
+        .inbox-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 5px 10px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .inbox-label {
+            font-weight: 500;
+            font-family: 'Roboto', Arial, Helvetica, sans-serif;
+            color: #888;
+            font-size: 12px;
+        }
+
+        .inbox-time {
+            font-weight: 400;
+            color: #888;
+            font-size: 12px;
+            padding-right: 20px;
+        }
+
+        #preview-subject-line,
+        #preheader-preview {
+            display: block;
+            width: 100%;
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+        th {
+            padding: 5px;
+            text-align: left;
+        }
+
+        .new-email {
+            font-weight: bold;
+            font-size: 14px;
+            position: relative;
+            z-index: 1;
+        }
+
+
+        /* Modal Styles */
+        .modal {
+            display: flex;
+            /* Changed from flex to none */
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+            align-items: center;
+            justify-content: center;
+            visibility: hidden;
+            opacity: 0;
+            //transition: visibility 0s, opacity 0.15s linear;
+        }
+
+        .modal.show {
+            visibility: visible;
+            opacity: 1;
+        }
+
+        .modal-content {
+            background-color: #fefefe;
+            padding: 20px;
+            border: 1px solid #888;
+            //width: 100%;
+            max-width: 500px;
+            max-height: 100vh;
+            overflow-y: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            position: relative;
+            z-index: 2001;
+            overflow: hidden;
+        }
+
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 36px;
+            font-weight: bolder;
+            cursor: pointer;
+            position: absolute;
+            top: 0px;
+            right: 20px;
+        }
+
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+            cursor: pointer;
+        }
+
+        .modal .inputsection {
+            padding: 15px;
+            background-color: #ECFAFF;
+        }
+
+        .modal h3 {
+            font-size: 16px;
+            color: #0070A9;
+            margin-bottom: 10px;
+        }
+
+
+        /* Settings Modal Specific Styles */
+        .settings-container {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+        }
+
+        /* Table Styles within Modal */
+        .modal .modern-table {
+            overflow-x: auto;
+            border: 1px solid #e0e0e0;
+            border-radius: 8px;
+            background-color: #ffffff;
+            margin-top: 10px;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .modal .modern-table table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: 'Roboto', sans-serif;
+            font-size: 14px;
+        }
+
+        .modal .modern-table th,
+        .modal .modern-table td {
+            text-align: left;
+            padding: 6px 8px;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .modal .modern-table th {
+            background-color: #f0f0f0;
+            font-weight: 500;
+            color: #333;
+            text-transform: uppercase;
+            font-size: 11px;
+            position: sticky;
+            top: 0;
+            z-index: 10;
+        }
+
+        /* modal for settings menu*/
+
+
+
+        #model-select {
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            font-size: 14px;
+        }
+
+        #ai-role {
+            min-height: 150px;
+            padding: 8px;
+            border-radius: 8px;
+            border: 1px solid #ccc;
+            resize: vertical;
+            font-size: 14px;
+            line-height: 1.5;
+        }
+
+        /* Icon Styles */
+        .icon-container {
+            position: relative;
+            top: 5px;
+            //left: -50px;
+            display: none;
+            //justify-content: space-around;
+            gap: 5px;
+            z-index: 100;
+            background-color: #ffffff;
+            padding: 0px;
+            border-radius: 6px;
+            //box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            //width: 50%;
+            margin-top: -20px;
+
+        }
+
+        .icon-button {
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 5px;
+            color: #02517C;
+            transition: background-color 0.5s ease;
+            border-radius: 6px;
+        }
+
+
+
+        .icon-button:hover {
+            background: #f0f0f0;
+
+        }
+
+        .icon-button:active {
+            transform: scale(0.90);
+        }
+
+        .icon-button svg {
+            width: 25px;
+            height: 25px;
+        }
+
+        .attribution {
+            position: fixed;
+            bottom: 10px;
+            right: 10px;
+            font-size: 10px;
+            color: #888;
+            background-color: rgba(255, 255, 255, 0.8);
+            padding: 2px 5px;
+            border-radius: 8px;
+            z-index: 9999;
+            font-family: 'roboto';
+            text-align: left;
+        }
+
+        .attribution a {
+            color: #0070A9;
+            text-decoration: none;
+        }
+
+        .attribution a:hover {
+            text-decoration: underline;
+        }
+
+    /*--Drop Down Menu CSS--*/
+
+        .mainicons{
+            position: fixed;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            margin: 20px 0px 20px 20px;
+            z-index: 9000;
+            box-sizing: content-box !important;
+
+        }
+
+        .mainicons.collapsed{
+            position: flex;
+            right: 20px;
+            margin-right: 0px;
+
+        }
+        
+
+        .hamburger-menu {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-around;
+        cursor: pointer;
+        background-color: #f1f3f4;
+        border-radius: 8px;
+        padding: 10px;
+        box-shadow: none;
+        transition: all .3s ease-in-out;
+        width: 24px;
+        height: 24px;
+        border: 1px solid #788896;
+        z-index: 9006;
+    }
+
+    .hamburger-menu:hover{
+        opacity: 100%;
+        box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    }
+
+    .hamburger-menu div {
+    width: 100%;
+    height: 3px;
+    background-color: #00A7E1;
+    transition: all 0.3s ease;
+    }
+
+    .hamburger-menu.change{
+        border-radius: 0 8px 0 8px;
+        background-color: #00A7E1;
+    }
+
+    .hamburger-menu.change .bar1 {
+        transform: rotate(-45deg) translate(-5px, 5px);
+        background-color: white;
+    }
+
+    .hamburger-menu.change .bar2 {
+        opacity: 0;
+    }
+
+    .hamburger-menu.change .bar3 {
+        transform: rotate(45deg) translate(-5px, -5px);
+        background-color: white;
+    }
+
+    .fullscreen-toggle {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 24px;
+    height: 24px;
+    background-color: #f1f3f4;
+    border-radius: 8px;
+    cursor: pointer;
+    border: 1px solid #788896;
+    transition: all .3s ease-in-out;
+    padding: 10px;
+    z-index: 8000;
+}
+
+.fullscreen-toggle:hover {
+    opacity: 100%;
+    box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
+    z-index: 9000;
+
+}
+
+
+.fullscreen-toggle svg {
+    width: 24px;
+    height: 24px;
+    color: #0070A9;
+    z-index: 9000;
+    /* Adjust size as needed */
+}
+
+    .menu-overlay {
+    display: block; /* Keep it block but initially hidden by opacity */
+    position: fixed;
+    top: 0;
+    right: 0px;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    opacity: 0;
+    transition: opacity .3s ease-in-out;
+    visibility: hidden; /* Initially hidden */
+}
+
+.menu-overlay.visible {
+    visibility: visible; /* Make it visible */
+}
+
+.menu-overlay.show {
+    opacity: 1;
+    z-index: 9005;
+}
+
+.menu-content {
+    position: fixed;
+    min-width: 300px;
+    max-width: 50%;
+    border-radius: 8px;
+    overflow: hidden;
+    right: 20px;
+    top: 20px;
+    background-color: #00A7E1;
+    transform: translateY(-20px); /* Initial position for animation */
+    transform-origin: top right;
+    transform: scale(0);
+    opacity: 0; /* Initially hidden */
+    transition: transform .3s ease-in-out, opacity .3s ease-in-out;
+    box-shadow: rgba(0, 0, 0, 0.25) 0px 25px 50px -12px;
+
+}
+
+.menu-content.show {
+    transform: translateY(0); /* Final position for animation */
+    transform: scale(1);
+    opacity: 1; /* Fully visible */
+
+}
+
+.menu-content.collapsed {
+    right: 20px;
+}
+
+    .menu-content button {
+        display: flex;
+        align-items: center;
+        justify-content: left;
+        flex-direction: row-reverse;
+        width: 100%;
+        height: 60px;
+        background-color: #f0f0f0;
+        border: none;
+        cursor: pointer;
+        text-align: left;
+        font-family: 'roboto', Arial, Helvetica, sans-serif;
+        font-weight: bold;
+        color: #555;
+        transition: all 0.15s ease-in;
+        border-bottom: 1px solid #e0e0e0;
+        text-transform: uppercase;
+
+    }
+
+    .menu-content button:hover {
+        background-color: #fff;
+        //text-indent: 5px;
+        transform: translateX(5px);
+        color: black;
+        font-weight: bolder;
+    }
+
+    .icon-button {
+            background: none;
+            border: none;
+            padding: 10px;
+            color: #788896;
+        }
+
+        .icon-button svg {
+            width: 20px;
+            height: 20px;
+        }
+
+    </style>
+</head>
+
+<body>
+
+   
+    
+
+
+
+    <div id="markdown-modal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <div>
+                <h3 style="font-size: 18px; color: #0070a9; margin-bottom: 15px">
+                    Markup Guide
+                </h3>
+                <div class="modern-table">
+                    <table>
+                        <tr>
+                            <th>Markup</th>
+                            <th>Result</th>
+                        </tr>
+                        <tr>
+                            <td>*italic*</td>
+                            <td><em>italic</em></td>
+                        </tr>
+                        <tr>
+                            <td>**bold**</td>
+                            <td><strong>bold</strong></td>
+                        </tr>
+                        <tr>
+                            <td>***bolded blue***</td>
+                            <td>
+                                <strong style="color:#0070A9">bolded blue</strong>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td>[link text](http://url)</td>
+                            <td><a href="#" style="color: #0070a9">link text</a></td>
+                        </tr>
+                        <tr>
+                            <td>* bullet point</td>
+                            <td>• bullet point</td>
+                        </tr>
+                        <tr>
+                            <td>> quote</td>
+                            <td>
+                                <blockquote style="
+                      margin-left: 10px;
+                      padding-left: 10px;
+                      border-left: 2px solid #0070a9;
+                    ">
+                                    quote
+                                </blockquote>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>~~strikethrough~~</td>
+                            <td><del>strikethrough</del></td>
+                        </tr>
+                        <tr>
+                            <td>^superscript^</td>
+                            <td><sup>superscript</sup></td>
+                        </tr>
+                        <tr>
+                            <td># Header 1</td>
+                            <td>
+                                <h1 style="font-size: 24px; margin: 0">Header 1</h1>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>## Header 2</td>
+                            <td>
+                                <h2 style="font-size: 20px; margin: 0">Header 2</h2>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>### Header 3</td>
+                            <td>
+                                <h3 style="font-size: 18px; margin: 0">Header 3</h3>
+                            </td>
+                        </tr>
+                       
+                        <tr>
+                            <td>`inline code`</td>
+                            <td>
+                                <code style="
+                      background-color: #f0f0f0;
+                      padding: 2px 4px;
+                      border-radius: 3px;
+                    ">inline code</code>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>---</td>
+                            <td>
+                                <hr style="
+                      border: none;
+                      border-top: 1px solid #ccc;
+                      margin: 10px 0;
+                    " />
+                            </td>
+                        </tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="settings-modal" class="modal">
+        <div class="modal-content" style="width: 50%">
+            <span class="close">&times;</span>
+            <h3>Settings</h3>
+            <div class="settings-container">
+                <label for="model-select">Select AI Model:</label>
+                <select id="model-select">
+                    <option value="gpt4o">GPT-4o</option>
+                    <option value="claude3.5">Claude 3.5 Sonnet</option>
+                </select>
+                <label for="ai-role">AI Role for Suggestions:</label>
+                <textarea id="ai-role" rows="4"></textarea>
+            </div>
+        </div>
+    </div>
+    <div class="container" >
+
+       <div class="scrollbox">
+        <div class="scrollbox-content">
+        <div class="input-pane">
+            <!-- Input pane -->
+            <div class="pane">
+                <div class="filename-display">
+                    <h3>
+                        E-mail Copywriter Tool beta v1 <span id="filename-display"></span>
+                    </h3>
+                    </div>
+                    <div class="icon-container">
+                        <button id="markdown-guide-button" class="icon-button" title="Markdown Guide for Formatting">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-markdown" viewBox="0 0 16 16">
+                                <path
+                                    d="M14 3a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zM2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z" />
+                                <path fill-rule="evenodd"
+                                    d="M9.146 8.146a.5.5 0 0 1 .708 0L11.5 9.793l1.646-1.647a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 0-.708" />
+                                <path fill-rule="evenodd"
+                                    d="M11.5 5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 1 .5-.5" />
+                                <path
+                                    d="M3.56 11V7.01h.056l1.428 3.239h.774l1.42-3.24h.056V11h1.073V5.001h-1.2l-1.71 3.894h-.039l-1.71-3.894H2.5V11z" />
+                            </svg>
+                        </button>
+
+                        <button id="export-word-button" class="icon-button" title="Export to Word">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-file-earmark-arrow-down" viewBox="0 0 16 16">
+                                <path
+                                    d="M8.5 6.5a.5.5 0 0 0-1 0v3.793L6.354 9.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 10.293z" />
+                                <path
+                                    d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z" />
+                            </svg>
+                        </button>
+                        <button id="import-word-button" class="icon-button" title="Import from Word">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-file-earmark-plus" viewBox="0 0 16 16">
+                                <path
+                                    d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5" />
+                                <path
+                                    d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5z" />
+                            </svg>
+                        </button>
+                        <input type="file" id="word-file-input" style="display: none" accept=".docx" />
+                        <button id="copy-button" class="icon-button" title="Copy Image of Preview to Clipboard">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-copy" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z" />
+                            </svg>
+                        </button>
+
+                        <button id="save-button" class="icon-button" title="Save Template as HTML File">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-filetype-html" viewBox="0 0 16 16">
+                                <path fill-rule="evenodd"
+                                    d="M14 4.5V11h-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zm-9.736 7.35v3.999h-.791v-1.714H1.79v1.714H1V11.85h.791v1.626h1.682V11.85h.79Zm2.251.662v3.337h-.794v-3.337H4.588v-.662h3.064v.662zm2.176 3.337v-2.66h.038l.952 2.159h.516l.946-2.16h.038v2.661h.715V11.85h-.8l-1.14 2.596H9.93L8.79 11.85h-.805v3.999zm4.71-.674h1.696v.674H12.61V11.85h.79v3.325Z" />
+                            </svg>
+                        </button>
+
+                        <button id="settings-button" class="icon-button" title="Settings">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                                class="bi bi-gear" viewBox="0 0 16 16">
+                                <path
+                                    d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0" />
+                                <path
+                                    d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z" />
+                            </svg>
+                        </button>
+                    </div>
+                
+                    <button id="toggleAll" class="collapse-all-button">Collapse All</button>
+                <div id="all-inputs-container">
+                    <!-- Input fields -->
+
+                    <div class="input-group input-group-subandpre" draggable="false" data-input-id="subject_line">
+                        <div class="collapse-arrow">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+                            </svg>
+                        </div>
+                        <label for="subject_line">
+                            Subject Line:
+                        </label>
+                            <div class="toggle-container placeholder-toggle"></div>
+                       
+                        <input type="text" id="subject_line" class="special-input"
+                            value="Lorem ipsum dolor sit amet, consectetur adipiscing elit " />
+                    </div>
+
+                    <div class="input-group input-group-subandpre" draggable="false" data-input-id="preheader">
+                        <div class="collapse-arrow">
+                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                <path d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+                            </svg>
+                        </div>
+                        <label for="preheader">
+                            Preheader:
+                            <div class="toggle-container placeholder-toggle"></div>
+                        </label>
+                        <input type="text" id="preheader" class="special-input"
+                            value="Aflac policies are yours, and you own them" />
+                    </div>
+
+
+                    <div id="draggable-container">
+                        <div class="input-group" draggable="true" data-input-id="image_upload">
+                            <div class="collapse-arrow">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                    <path d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+                                </svg>
+                            </div>
+                            <label class="checkbox-label">
+                                Image:
+                            </label>
+                            <div class="toggle-container">
+                                <input type="checkbox" id="toggle_image_upload" checked />
+                                <label for="toggle_image_upload"></label>
+                            </div>
+                            
+                            <!-- Add this wrapper div -->
+                            <div class="input-content-wrapper">
+                                <!-- AI buttons will go here via JavaScript -->
+                                <div class="button-container"></div>
+                                
+                                <!-- Image controls in their own container -->
+                                <div class="image-controls-container">
+                                    <input type="text" id="image_prompt" placeholder="Enter image generation prompt" />
+                                    <div class="image-buttons">
+                                        <button id="generate_image" class="image_uploadGen"><div class="icon-button-image">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-magic" viewBox="0 0 16 16">
+                                                <path d="M9.5 2.672a.5.5 0 1 0 1 0V.843a.5.5 0 0 0-1 0zm4.5.035A.5.5 0 0 0 13.293 2L12 3.293a.5.5 0 1 0 .707.707zM7.293 4A.5.5 0 1 0 8 3.293L6.707 2A.5.5 0 0 0 6 2.707zm-.621 2.5a.5.5 0 1 0 0-1H4.843a.5.5 0 1 0 0 1zm8.485 0a.5.5 0 1 0 0-1h-1.829a.5.5 0 0 0 0 1zM13.293 10A.5.5 0 1 0 14 9.293L12.707 8a.5.5 0 1 0-.707.707zM9.5 11.157a.5.5 0 0 0 1 0V9.328a.5.5 0 0 0-1 0zm1.854-5.097a.5.5 0 0 0 0-.706l-.708-.708a.5.5 0 0 0-.707 0L8.646 5.94a.5.5 0 0 0 0 .707l.708.708a.5.5 0 0 0 .707 0l1.293-1.293Zm-3 3a.5.5 0 0 0 0-.706l-.708-.708a.5.5 0 0 0-.707 0L.646 13.94a.5.5 0 0 0 0 .707l.708.708a.5.5 0 0 0 .707 0z"/>
+                                              </svg>
+                                        </div>Generate Image</button>
+                                        <button id="upload_button" class="image_uploadGen">
+                                            <div class="icon-button-image">
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-image" viewBox="0 0 16 16">
+                                                    <path d="M6.002 5.5a1.5 1.5 0 1 1-3 0 1.5 1.5 0 0 1 3 0"/>
+                                                    <path d="M2.002 1a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V3a2 2 0 0 0-2-2zm12 1a1 1 0 0 1 1 1v6.5l-3.777-1.947a.5.5 0 0 0-.577.093l-3.71 3.71-2.66-1.772a.5.5 0 0 0-.63.062L1.002 12V3a1 1 0 0 1 1-1z"/>
+                                                </svg>
+                                            </div>
+                                            Upload Image
+                                        </button>
+                                        <input type="file" id="image_upload" accept="image/*" style="display: none;" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                            <div id="image_preview" style="max-width: 100%; max-height: 200px; overflow: hidden;"></div>
+                            <div id="image_controls" style="display: none;">
+                                <button id="crop_image">Crop</button>
+                                <button id="resize_image">Resize</button>
+                                <button id="change_ratio">Change Ratio</button>
+                            </div>
+                        
+                        <div class="input-group" draggable="true" data-input-id="header1">
+                            <div class="collapse-arrow">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                    <path d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+                                </svg>
+                            </div>
+                            <label class="checkbox-label">
+                                Header Content:
+                            </label>
+                            <div class="toggle-container">
+                                <input type="checkbox" id="toggle_header1" checked />
+                                <label for="toggle_header1"></label>
+                            </div>
+                            <input type="text" id="header1" value="Aflac Always® – be prepared for life changes"
+                                style="cursor: text" />
+                        </div>
+
+                        <div class="input-group" draggable="true" data-input-id="salutation">
+                            <div class="collapse-arrow">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                    <path d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+                                </svg>
+                            </div>
+                            <label class="checkbox-label">
+                                Salutation:</label>
+                                <div class="toggle-container">
+                                    <input type="checkbox" id="toggle_salutation" checked="" />
+                                    <label for="toggle_salutation"></label>
+                                </div>
+                            <input type="text" id="salutation" value="[Fname]," />
+                        </div>
+
+                        <div class="input-group" draggable="true" data-input-id="bodycontent1">
+                            <div class="collapse-arrow">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                    <path d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+                                </svg>
+                            </div>
+                            <label class="checkbox-label">
+                                Body Content:</label>
+                                <div class="toggle-container">
+                                    <input type="checkbox" id="toggle_bodycontent1" checked="" />
+                                    <label for="toggle_bodycontent1"></label>
+                                </div>
+                           
+                            <textarea id="bodycontent1" rows="2">
+You've experienced first-hand the value of your Aflac coverage.
+
+Make sure you're covered from expenses health insurance doesn't cover. Consider enrolling in our Aflac Always® program where you can provide an alternative payment method to use in the event you change jobs, retire, or your employer stops sending premium payments on your behalf.
+
+It's easy to enroll and ensures your Aflac coverage remains in place at the same great rates, so we can be there for you, always.</textarea>
+                        </div>
+
+                        <div class="input-group" draggable="true" data-input-id="button1">
+                            <div class="collapse-arrow">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                    <path d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+                                </svg>
+                            </div>
+                            <label class="checkbox-label">
+                                Button Text: </label>
+                                <div class="toggle-container">
+                                    <input type="checkbox" id="toggle_button1" checked="" />
+                                    <label for="toggle_button1"></label>
+                                </div>
+                           
+                            <input type="text" id="button1"
+                                value="Enroll Now[](https://myaflac.aflac.com/aflac-always/summary)" />
+                        </div>
+
+                        <div class="input-group" draggable="true" data-input-id="bodycontent2">
+                            <div class="collapse-arrow">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                    <path d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+                                </svg>
+                            </div>
+                            <label class="checkbox-label">
+                                Body Content 2:</label>
+                                <div class="toggle-container">
+                                    <input type="checkbox" id="toggle_bodycontent2" unchecked="" />
+                                    <label for="toggle_bodycontent2"></label>
+                                </div>
+                           
+                            <textarea id="bodycontent2" rows="2">
+Second body text area.</textarea>
+                        </div>
+
+                        <div class="input-group" draggable="true" data-input-id="signature">
+                            <div class="collapse-arrow">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                    <path d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+                                </svg>
+                            </div>
+                            <label class="checkbox-label">
+                                Signature:</label>
+                                <div class="toggle-container">
+                                    <input type="checkbox" id="toggle_signature" checked="" />
+                                    <label for="toggle_signature"></label>
+                                </div>
+                           
+                            <textarea id="signature" rows="2">
+Sincerely,
+- The Aflac Customer Care Team</textarea>
+                        </div>
+
+                        <div class="input-group" draggable="true" data-input-id="auto_generated">
+                            <div class="collapse-arrow">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                    <path d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+                                </svg>
+                            </div>
+                            <label class="checkbox-label">
+                                Auto-generated Message:</label>
+                                <div class="toggle-container">
+                                    <input type="checkbox" id="toggle_auto_generated" checked="" />
+                                    <label for="toggle_auto_generated"></label>
+                                </div>
+                           
+                            <input type="text" id="auto_generated"
+                                value="This email was automatically generated. Please do not respond to this message." />
+                        </div>
+                    </div>
+                    <div>
+                        <div class="input-group input-group-subandpre" draggable="false" data-input-id="footer_text">
+                            <div class="collapse-arrow">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
+                                    <path d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
+                                </svg>
+                            </div>
+                            <label class="checkbox-label">
+                                Footer Text:</label>
+                                <div class="toggle-container">
+                                    <input type="checkbox" id="toggle_footer_text" checked="" />
+                                    <label for="toggle_footer_text"></label>
+                                </div>
+                           
+                            <textarea id="footer_text" rows="2">
+Only traditional (individual) policies that are in active status may enroll in Aflac Always. Life policies and Group coverage are not eligible. Refer to your policy for benefit details, definitions, limitations, and exclusions.
+
+    Have questions or need assistance? Check our [FAQs](https://www.aflac.com/contact-aflac/default.aspx), or [connect](https://www.aflac.com/contact-aflac/default.aspx) whenever you need us.
+
+    © 2024 Aflac Incorporated. All rights reserved. Aflac insurance policies are offered and underwritten by American Family Life Assurance Company of Columbus. In New York, Aflac insurance policies are offered and underwritten by American Family Life Assurance Company of New York.
+
+    [Contact Us](https://www.aflac.com/contact-aflac/default.aspx) | [Privacy Policy](https://www.aflac.com/privacy-policy) | [Terms of Use](https://www.aflac.com/about-aflac/terms-of-use.aspx) | [Accessibility Statement](https://www.aflac.com/contact-aflac/aflac-accessibility-statement-and-contact.aspx)
+
+    1932 Wynnton Rd., Columbus, GA 31999</textarea>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+   
+
+        </div>
+       </div>
+       </div>
+        <!-- Preview pane -->
+
+        <div class="scrollbox">
+        <div class="scrollbox-content">
+        <div class="pane" id="template-preview">
+            <!-- Inbox view -->
+            <div class="gmail-mock">
+
+                    <table class="tableinbox" style="
+                font-family: 'roboto', Arial, Helvetica, sans-serif;
+              ">
+                        <tbody>
+                            <thead>
+
+
+
+
+                                <th>
+
+
+                                    <div class="inbox-header">
+                                        <span class="inbox-label">Inbox view</span>
+                                       
+                                    </div>
+
+                                </th>
+
+
+
+                                <!-- Aflac Email in inbox view -->
+                                <tr class="new-email">
+
+                                    <th>
+
+                                        <div class="email-preview-container">
+                                            <div class="favicon-container" style="display: flex; align-items: center">
+                                                <span
+                                                    style="color: transparent; font-size: 20px; margin: 0px 5px 0px 5px">&#9679;</span>
+                                                <img src="https://www.Aflac.com/_Global-Assets/images/favicons/favicon.ico"
+                                                    style="width: 42px; height: 42px">
+                                            </div>
+                                            <div class="email-content-wrapper">
+                                                <div class="sender" style="display: flex; justify-content: space-between;">Aflac <span class="inbox-time"></span></div>
+                                                <div class="subject" id="preview-subject-line"></div>
+                                                <div class="preheader" id="preheader-preview"></div>
+                                            </div>
+                                        </div>
+                                    </th>
+                                    <!--Issue 1-->
+
+
+                                </tr>
+
+
+
+                    </table>
+
+
+            </div>
+            <!-- Email previewer section start-->
+            <table class="tableinbox2" cellspacing="0" cellpadding="0">
+                <tbody>
+                    <tr>
+                        <td>
+                            <table style="
+                                  width: 540px;
+                                  table-layout: fixed;
+                                  border-collapse: separate;
+                                " cellspacing="0" cellpadding="0" role="presentation">
+                                <tbody>
+                                    <tr>
+                                        <td bgcolor="#FFFFFF" align="center" >
+                                            <img data-assetid="445663"
+                                                src="http://image.Aflac-email.com/lib/fe9c15707666067f7c/m/1/eee0505a-1f32-49b6-bc0c-9b831cbb1671.png"
+                                                alt="Aflac Logo" height="54" width="157" style="
+                                          display: block;
+                                          text-align: center;
+                                          margin: 40px auto 40px auto;
+
+                                          height: 54px;
+                                          width: 157px;
+                                         
+
+                                        " />
+                                        </td>
+                                    </tr>
+                                   
+                                    <tr>
+                                        <td align="left">
+                                            <!-- Dynamic content will be inserted here by JavaScript -->
+                                        </td>
+                                    </tr>
+                                   
+                                </tbody>
+                               
+                            </table>
+                            <tr>
+                                <td align="left" class="footer-wrapper">
+                                    <div id="footer-text-preview" style="
+                                  font-size: 14px;
+                                  line-height: 24px;
+                                  color: #555555;
+                                "></div>
+                                </td>
+                            </tr>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <!-- Email previewer section end-->
+
+
+
+
+            </span>
+            </th>
+            </thead>
+            </tbody>
+            </table>
+        </div>
+</div>
+</div>
+        <div class="mainicons">
+            <div id="hamburger-menu" class="hamburger-menu">
+                <div class="bar1"></div>
+                <div class="bar2"></div>
+                <div class="bar3"></div>
+            </div>
+
+            <div id="menu-overlay" class="menu-overlay">
+                <div class="menu-content">
+                    <button id="menu-markup-guide">Markup guide<span class="icon-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-markdown" viewBox="0 0 16 16">
+                        <path
+                            d="M14 3a1 1 0 0 1 1 1v8a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1zM2 2a2 2 0 0 0-2 2v8a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V4a2 2 0 0 0-2-2z" />
+                        <path fill-rule="evenodd"
+                            d="M9.146 8.146a.5.5 0 0 1 .708 0L11.5 9.793l1.646-1.647a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 0-.708" />
+                        <path fill-rule="evenodd"
+                            d="M11.5 5a.5.5 0 0 1 .5.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 1 .5-.5" />
+                        <path
+                            d="M3.56 11V7.01h.056l1.428 3.239h.774l1.42-3.24h.056V11h1.073V5.001h-1.2l-1.71 3.894h-.039l-1.71-3.894H2.5V11z" />
+                    </svg></span></button>
+                    <button id="menu-export-html">Export as an HTML file<span class="icon-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-filetype-html" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M14 4.5V11h-1V4.5h-2A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v9H2V2a2 2 0 0 1 2-2h5.5zm-9.736 7.35v3.999h-.791v-1.714H1.79v1.714H1V11.85h.791v1.626h1.682V11.85h.79Zm2.251.662v3.337h-.794v-3.337H4.588v-.662h3.064v.662zm2.176 3.337v-2.66h.038l.952 2.159h.516l.946-2.16h.038v2.661h.715V11.85h-.8l-1.14 2.596H9.93L8.79 11.85h-.805v3.999zm4.71-.674h1.696v.674H12.61V11.85h.79v3.325Z" />
+                    </svg></button>
+                    <button id="menu-copy-clipboard">Copy preview to clipboard<span class="icon-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-copy" viewBox="0 0 16 16">
+                        <path fill-rule="evenodd"
+                            d="M4 2a2 2 0 0 1 2-2h8a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V2a1 1 0 0 0-1-1zM2 5a1 1 0 0 0-1 1v8a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1v-1h1v1a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h1v1z" />
+                    </svg></span></button>
+                    <button id="menu-save-word">Save as Word doc<span class="icon-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-file-earmark-arrow-down" viewBox="0 0 16 16">
+                        <path
+                            d="M8.5 6.5a.5.5 0 0 0-1 0v3.793L6.354 9.146a.5.5 0 1 0-.708.708l2 2a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 10.293z" />
+                        <path
+                            d="M14 14V4.5L9.5 0H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h8a2 2 0 0 0 2-2M9.5 3A1.5 1.5 0 0 0 11 4.5h2V14a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h5.5z" />
+                    </svg></span></button>
+                    <button id="menu-load-word">Import a saved Word doc<span class="icon-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                        class="bi bi-file-earmark-plus" viewBox="0 0 16 16">
+                        <path
+                            d="M8 6.5a.5.5 0 0 1 .5.5v1.5H10a.5.5 0 0 1 0 1H8.5V11a.5.5 0 0 1-1 0V9.5H6a.5.5 0 0 1 0-1h1.5V7a.5.5 0 0 1 .5-.5" />
+                        <path
+                            d="M14 4.5V14a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V2a2 2 0 0 1 2-2h5.5zm-3 0A1.5 1.5 0 0 1 9.5 3V1H4a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h8a1 1 0 0 0 1-1V4.5z" />
+                    </svg></span></span></button>
+                    <button id="menu-settings">Settings<span class="icon-button"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
+                      class="bi bi-gear" viewBox="0 0 16 16">
+                      <path
+                          d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492M5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0" />
+                      <path
+                          d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115z" />
+                  </svg></span></button>
+                </div>
+            </div>
+        
+            <div id="fullscreen-toggle" class="fullscreen-toggle">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16" fill="currentColor" class="bi bi-fullscreen">
+                    <path d="M1.5 1a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0v-4A1.5 1.5 0 0 1 1.5 0h4a.5.5 0 0 1 0 1zM10 .5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 16 1.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5M.5 10a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 0 14.5v-4a.5.5 0 0 1 .5-.5m15 0a.5.5 0 0 1 .5.5v4a1.5 1.5 0 0 1-1.5 1.5h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5"/>
+                </svg>
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 16 16" fill="currentColor" class="bi bi-fullscreen-exit" style="display: none;">
+                    <path d="M5.5 0a.5.5 0 0 1 .5.5v4A1.5 1.5 0 0 1 4.5 6h-4a.5.5 0 0 1 0-1h4a.5.5 0 0 0 .5-.5v-4a.5.5 0 0 1 .5-.5m5 0a.5.5 0 0 1 .5.5v4a.5.5 0 0 0 .5.5h4a.5.5 0 0 1 0 1h-4A1.5 1.5 0 0 1 10 4.5v-4a.5.5 0 0 1 .5-.5M0 10.5a.5.5 0 0 1 .5-.5h4A1.5 1.5 0 0 1 6 11.5v4a.5.5 0 0 1-1 0v-4a.5.5 0 0 0-.5-.5h-4a.5.5 0 0 1-.5-.5m10 1a1.5 1.5 0 0 1 1.5-1.5h4a.5.5 0 0 1 0 1h-4a.5.5 0 0 0-.5.5v4a.5.5 0 0 1-1 0z"/>
+                </svg>
+            </div>
+        </div>
+    </div>
+    </div>
+    </div>
+    <div class="attribution">
+        Created by
+        <a href="mailto:mmolina@aflac.com">Miguel Molina</a><br>
+    </div>
+
+
+
+            <!-- Scripts -->
+            <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/flowbite@2.4.1/dist/flowbite.min.js"></script>
+            <script src="https://cdn.jsdelivr.net/npm/less"></script>
+            <script src="https://unpkg.com/docx@7.1.0/build/index.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/1.3.8/FileSaver.js"></script>
+            <script src="https://cdnjs.cloudflare.com/ajax/libs/mammoth/1.4.0/mammoth.browser.min.js"></script>
+
+            <script>
+                // Define input fields and their corresponding preview elements
+                const inputFields = {
+                    subject_line: ["preview-subject-line"],
+                    preheader: ["preheader-preview"],
+                    header1: ["preview-header1"],
+                    salutation: ["preview-salutation"],
+                    bodycontent1: ["preview-bodycontent1"],
+                    button1: ["preview-button1"],
+                    bodycontent2: ["preview-bodycontent2"],
+                    signature: ["signature-preview"],
+                    auto_generated: ["auto-generated-preview"],
+                    footer_text: ["footer-text-preview"],
+                    ai_role: [],
+                    image_upload: ["preview-image"],
+                };
+
+                document.addEventListener("DOMContentLoaded", () => {
+
+
+                    const imageUpload = document.getElementById('image_upload');
+const imagePreview = document.getElementById('image_preview');
+const imageControls = document.getElementById('image_controls');
+let uploadedImage = null;
+
+imageUpload.addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (file) {
+        const reader = new FileReader();
+        reader.onload = function(event) {
+            uploadedImage = new Image();
+            uploadedImage.onload = function() {
+                imagePreview.innerHTML = '';
+                imagePreview.appendChild(uploadedImage);
+                imageControls.style.display = 'block';
+                updatePreview();
+            }
+            uploadedImage.src = event.target.result;
+        }
+        reader.readAsDataURL(file);
+    }
+});
+
+// Basic image editing functions
+document.getElementById('crop_image').addEventListener('click', () => {
+    // Simple crop: just cuts the image in half
+    if (uploadedImage) {
+        const canvas = document.createElement('canvas');
+        const ctx = canvas.getContext('2d');
+        canvas.width = uploadedImage.width / 2;
+        canvas.height = uploadedImage.height / 2;
+        ctx.drawImage(uploadedImage, 0, 0, canvas.width, canvas.height, 0, 0, canvas.width, canvas.height);
+        uploadedImage.src = canvas.toDataURL();
+        imagePreview.innerHTML = '';
+        imagePreview.appendChild(uploadedImage);
+        updatePreview();
+    }
+});
+
+document.getElementById('resize_image').addEventListener('click', () => {
+    if (uploadedImage) {
+        const newWidth = prompt("Enter new width in pixels:", uploadedImage.width);
+        if (newWidth) {
+            const aspectRatio = uploadedImage.height / uploadedImage.width;
+            const newHeight = newWidth * aspectRatio;
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = newWidth;
+            canvas.height = newHeight;
+            ctx.drawImage(uploadedImage, 0, 0, newWidth, newHeight);
+            uploadedImage.src = canvas.toDataURL();
+            imagePreview.innerHTML = '';
+            imagePreview.appendChild(uploadedImage);
+            updatePreview();
+        }
+    }
+});
+
+document.getElementById('change_ratio').addEventListener('click', () => {
+    if (uploadedImage) {
+        const newRatio = prompt("Enter new aspect ratio (e.g., 16:9, 4:3, 1:1):", "16:9");
+        if (newRatio) {
+            const [width, height] = newRatio.split(':').map(Number);
+            const aspectRatio = height / width;
+            const newWidth = uploadedImage.width;
+            const newHeight = newWidth * aspectRatio;
+            const canvas = document.createElement('canvas');
+            const ctx = canvas.getContext('2d');
+            canvas.width = newWidth;
+            canvas.height = newHeight;
+            ctx.drawImage(uploadedImage, 0, 0, newWidth, newHeight);
+            uploadedImage.src = canvas.toDataURL();
+            imagePreview.innerHTML = '';
+            imagePreview.appendChild(uploadedImage);
+            updatePreview();
+        }
+    }
+});
+
+                    function createPadlockSVG() {
+                        const svg = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+                        svg.setAttribute("width", "16");
+                        svg.setAttribute("height", "16");
+                        svg.setAttribute("fill", "currentColor");
+                        svg.setAttribute("class", "bi bi-lock padlock-svg");
+                        svg.setAttribute("viewBox", "0 0 24 24");
+                        svg.innerHTML = `
+                            <path d="M18 10v-4c0-3.313-2.687-6-6-6s-6 2.687-6 6v4h-3v14h18v-14h-3zm-5 7.723v2.277h-2v-2.277c-.595-.347-1-.984-1-1.723 0-1.104.896-2 2-2s2 .896 2 2c0 .738-.404 1.376-1 1.723zm-5-7.723v-4c0-2.206 1.794-4 4-4 2.205 0 4 1.794 4 4v4h-8z"/>
+                        `;
+                        return svg;
+                    }
+
+                    const style = document.createElement('style');
+                        style.textContent = `
+                            .padlock-svg {
+                                position: absolute;
+                                bottom: 10px;
+                                right: 10px;
+                                width: 15px;
+                                height: 15px;
+                                color: #ccc;
+                                transition: all 0.3s;
+                            }
+                        `;
+                        document.head.appendChild(style);
+                   
+                        function createGrabbableSVG() {
+    const svg = document.createElementNS(
+        "http://www.w3.org/2000/svg",
+        "svg"
+    );
+    svg.setAttribute("width", "16");
+    svg.setAttribute("height", "16");
+    svg.setAttribute("fill", "currentColor");
+    svg.setAttribute(
+        "class",
+        "bi bi-grip-horizontal grabbable-svg drag-handle"
+    );
+    svg.setAttribute("viewBox", "0 0 16 16");
+    svg.setAttribute("id", "grabbable-svg");
+    svg.innerHTML = `
+        <path d="M2 8a1 1 0 1 1 0 2 1 1 0 0 1 0-2m0-3a1 1 0 1 1 0 2 1 1 0 0 1 0-2m3 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2m0-3a1 1 0 1 1 0 2 1 1 0 0 1 0-2m3 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2m0-3a1 1 0 1 1 0 2 1 1 0 0 1 0-2m3 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2m0-3a1 1 0 1 1 0 2 1 1 0 0 1 0-2m3 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+    `;
+    return svg;
+}
+
+                    function appendSVGIcons() {
+                        const allInputGroups = document.querySelectorAll('.input-group');
+                        allInputGroups.forEach((group) => {
+                            if (group.closest('#draggable-container')) {
+                                const grabbableSVG = createGrabbableSVG();
+                                group.appendChild(grabbableSVG);
+                            } else {
+                                const padlockSVG = createPadlockSVG();
+                                group.appendChild(padlockSVG);
+                            }
+                        });
+                    }
+
+                    appendSVGIcons();
+
+
+                   
+
+                    const charLimits = {
+                        subject_line: 100,
+                        preheader: 150,
+                        header1: 200,
+                        salutation: 50,
+                        bodycontent1: 1000,
+                        button1: 50,
+                        bodycontent2: 1000,
+                        signature: 200,
+                        auto_generated: 200,
+                        footer_text: 1500,
+                    };
+
+                    for (const [inputId, limit] of Object.entries(charLimits)) {
+                        const inputElement = document.getElementById(inputId);
+                        if (inputElement) {
+                            inputElement.maxLength = limit;
+
+                            // Create and append character count display inside the input/textarea
+                            const charCountDisplay = document.createElement("div");
+                            charCountDisplay.className = "char-count";
+                            charCountDisplay.textContent = `${inputElement.value.length}`;
+
+                            // Wrap input/textarea with a relative container
+                            const wrapper = document.createElement("div");
+                            //const wrapper2 = document.createElement("div");
+                            wrapper.style.position = "relative";
+                            wrapper.style.display = "grid";
+                            wrapper.style.gridTemplateRows = "1fr auto";
+                            wrapper.style.alignItems = "baseline";
+                            //wrapper2.style.position = "relative";
+                            inputElement.parentNode.insertBefore(wrapper, inputElement);
+                            //inputElement.parentNode.insertBefore(wrapper2, inputElement.previousSibling);
+                            wrapper.appendChild(inputElement);
+                            wrapper.appendChild(charCountDisplay);
+
+                            // Add event listener to update character count
+                            inputElement.addEventListener('input', function () {
+                                charCountDisplay.textContent = `${this.value.length}`;
+                            });
+                        }
+                    }
+
+                    for (const inputId of Object.keys(inputFields)) {
+                        const inputElement =
+                            document.getElementById(inputId);
+                        const toggleElement = document.getElementById(
+                            `toggle_${inputId}`
+                        );
+
+                        if (inputElement) {
+                            inputElement.addEventListener("input", () => {
+                                updatePreview();
+                                formChanged = true;
+                            });
+                        }
+                        if (toggleElement) {
+                            toggleElement.addEventListener("change", () => {
+                                updatePreview();
+                                formChanged = true;
+                            });
+                        }
+                    }
+
+                    const defaultAIRole =
+                        "You are a modern marketing e-mail content copywriter at a supplemental insurance company. You specialize in creating communications that drive desired outcomes such as digital adoption, onboarding, and retention. Provide only the requested output without any additional explanations, greetings, or quotation marks. imagine the answers you provide will be pasted directly into an e-mail for viewing. You can also incorporate markdown language ive included in this tool in your responses for body and footer content as necessary and applicable.";
+
+                    document
+                        .querySelectorAll("textarea")
+                        .forEach((textarea) => {
+                            if (textarea.id === "ai-role") {
+                                textarea.value =
+                                    textarea.value || defaultAIRole;
+                            }
+                            autoResizeTextarea(textarea);
+                            textarea.addEventListener("input", () => {
+                                autoResizeTextarea(textarea);
+                                formChanged = true;
+                            });
+                        });
+
+                    const modal =
+                        document.getElementById("markdown-modal");
+                    const markdownBtn = document.getElementById(
+                        "markdown-guide-button"
+                    );
+                    const saveBtn =
+                        document.getElementById("save-button");
+                    const copyBtn =
+                        document.getElementById("copy-button");
+
+                    const settingsModal =
+                        document.getElementById("settings-modal");
+                    const settingsBtn =
+                        document.getElementById("settings-button");
+                    const modelSelect =
+                        document.getElementById("model-select");
+                    const aiRoleTextarea =
+                        document.getElementById("ai-role");
+                    const markdownModal =
+                        document.getElementById("markdown-modal");
+
+                    aiRoleTextarea.value =
+                        aiRoleTextarea.value || defaultAIRole;
+
+
+
+
+
+
+                    let currentModel = "gpt4o";
+
+                    modelSelect.addEventListener("change", function () {
+                        currentModel = this.value;
+                        console.log("Selected model:", currentModel);
+                    });
+
+                    markdownBtn.onclick = function () {
+                        modal.classList.add("show");
+                    };
+
+
+
+                    saveBtn.onclick = saveTemplate;
+                    copyBtn.onclick = exportImage;
+
+                    document.getElementById("ai-role").value =
+                        defaultAIRole;
+                    document
+                        .getElementById("import-word-button")
+                        .addEventListener("click", function () {
+                            document
+                                .getElementById("word-file-input")
+                                .click();
+                        });
+
+                    document
+                        .getElementById("word-file-input")
+                        .addEventListener("change", function (event) {
+                            const file = event.target.files[0];
+                            if (file) {
+                                const reader = new FileReader();
+                                reader.onload = function (e) {
+                                    importFromWord(e.target.result);
+                                };
+                                reader.readAsArrayBuffer(file);
+                            }
+                        });
+
+                    const checkDocxLoaded = setInterval(() => {
+                        if (typeof docx !== "undefined") {
+                            clearInterval(checkDocxLoaded);
+                            console.log("docx library loaded");
+                        }
+                    }, 100);
+
+                    setTimeout(() => {
+                        clearInterval(checkDocxLoaded);
+                        if (typeof docx === "undefined") {
+                            console.error("docx library failed to load");
+                            alert(
+                                "The required library for exporting to Word failed to load. Please check your internet connection and reload the page."
+                            );
+                        }
+                    }, 5000);
+
+                    let originalTexts = {};
+                    let formChanged = false;
+
+                    async function getAIRecommendation(prompt) {
+                        const aiRoleTextarea =
+                            document.getElementById("ai-role");
+                        const aiRole = aiRoleTextarea
+                            ? aiRoleTextarea.value.slice(0, 500)
+                            : ""; // Limit AI role to 500 characters
+                        const truncatedPrompt = prompt.slice(0, 1000); // Limit prompt to 1000 characters
+
+                        if (currentModel === "gpt4o") {
+                            try {
+                                console.log("Sending request to OpenAI API...");
+                                const response = await fetch(
+                                    "https://my-claude-proxy-9kbcdr62g-perplex1s-projects.vercel.app/api/openai",
+                                    {
+                                        method: "POST",
+                                        headers: {
+                                            "Content-Type": "application/json",
+                                        },
+                                        body: JSON.stringify({
+                                            model: "gpt-4o",
+                                            messages: [
+                                                { role: "system", content: aiRole },
+                                                {
+                                                    role: "user",
+                                                    content: truncatedPrompt,
+                                                },
+                                            ],
+                                            max_tokens: 500,
+                                            temperature: 1.2,
+                                        }),
+                                    }
+                                );
+
+                                if (!response.ok) {
+                                    const errorBody = await response.text();
+                                    console.error(
+                                        "OpenAI API response not OK:",
+                                        response.status,
+                                        response.statusText,
+                                        errorBody
+                                    );
+                                    throw new Error(
+                                        `HTTP error! status: ${response.status}, body: ${errorBody}`
+                                    );
+                                }
+
+                                const data = await response.json();
+                                console.log(
+                                    "Received response from OpenAI API:",
+                                    data
+                                );
+                                return data.choices[0].message.content.trim();
+                            } catch (error) {
+                                console.error(
+                                    "Error in getAIRecommendation (OpenAI):",
+                                    error
+                                );
+                                throw error;
+                            }
+                        } else if (currentModel === "claude3.5") {
+                            try {
+                                console.log("Sending request to Claude API...");
+                                const response = await fetch(
+                                    "https://my-claude-proxy-9kbcdr62g-perplex1s-projects.vercel.app/api/claude",
+                                    {
+                                        method: "POST",
+                                        headers: {
+                                            "Content-Type": "application/json",
+                                        },
+                                        body: JSON.stringify({
+                                            model: "claude-3-sonnet-20240229",
+                                            max_tokens: 500,
+                                            system: aiRole,
+                                            messages: [
+                                                {
+                                                    role: "user",
+                                                    content: truncatedPrompt,
+                                                },
+                                            ],
+                                        }),
+                                    }
+                                );
+
+                                if (!response.ok) {
+                                    const errorBody = await response.text();
+                                    console.error(
+                                        "Claude API response not OK:",
+                                        response.status,
+                                        response.statusText,
+                                        errorBody
+                                    );
+                                    throw new Error(
+                                        `HTTP error! status: ${response.status}, body: ${errorBody}`
+                                    );
+                                }
+
+                                const data = await response.json();
+                                console.log(
+                                    "Received response from Claude API:",
+                                    data
+                                );
+
+                                if (
+                                    !data.content ||
+                                    !Array.isArray(data.content) ||
+                                    data.content.length === 0 ||
+                                    typeof data.content[0].text !== "string"
+                                ) {
+                                    console.error(
+                                        "Unexpected response format from Claude:",
+                                        data
+                                    );
+                                    throw new Error(
+                                        "Unexpected response format from Claude API"
+                                    );
+                                }
+
+                                return data.content[0].text;
+                            } catch (error) {
+                                console.error(
+                                    "Error in getAIRecommendation (Claude):",
+                                    error
+                                );
+                                throw error;
+                            }
+                        } else {
+                            throw new Error(
+                                `Unsupported model: ${currentModel}`
+                            );
+                        }
+                    }
+
+                    async function suggestAlternative(inputId) {
+                        const inputElement =
+                            document.getElementById(inputId);
+                        const suggestButton = document.querySelector(
+                            `button.ai-suggest[data-input-id="${inputId}"]`
+                        );
+                        const restoreButton =
+                            inputElement.parentNode.querySelector(
+                                ".restore-original"
+                            );
+                        const keepButton =
+                            inputElement.parentNode.querySelector(
+                                ".keep-suggestion"
+                            );
+
+                        if (!inputElement || !suggestButton) return;
+
+                        const currentValue = inputElement.value;
+                        const originalColor =
+                            suggestButton.style.background;
+
+                        if (!originalTexts[inputId]) {
+                            originalTexts[inputId] = currentValue;
+                        }
+
+                        // Disable button and show loading state
+                        suggestButton.disabled = true;
+                        const originalText = suggestButton.textContent;
+                        suggestButton.textContent = "Thinking...";
+                        suggestButton.style.background = "#cccccc";
+
+                        let prompt;
+                        switch (inputId) {
+                            case "subject_line":
+                                prompt = `Generate an attention-grabbing email subject line based on this: "${currentValue}". Respond with ONLY the new subject line, without any additional text, quotes, or explanations.`;
+                                break;
+                            case "preheader":
+                                prompt = `Create a brief email preheader based on: "${currentValue}". Provide ONLY the new preheader text, without any additional words, quotes, or explanations.`;
+                                break;
+                            case "header1":
+                                prompt = `Write a compelling email header based on: "${currentValue}". Respond with ONLY the new header text, without any additional words, quotes, or explanations.`;
+                                break;
+                            case "salutation":
+                                prompt = `Provide an email salutation similar to but different from: "${currentValue}". Respond with ONLY the new salutation, without any additional text, quotes, or explanations.`;
+                                break;
+                            case "bodycontent1":
+                                prompt = `Rewrite this email body content in a different style: "${currentValue}". Provide ONLY the new content, without any salutation, complimentary close, additional text, quotes, or explanations.`;
+                                break;
+                            case "bodycontent2":
+                                prompt = `Rewrite this email body content in a different style: "${currentValue}". Provide ONLY the new content, without any salutation, complimentary close, additional text, quotes, or explanations.`;
+                                break;
+                            case "button1":
+                                prompt = `Generate a short call-to-action button text based on: "${currentValue}". Respond with ONLY the new button text, without any additional words, quotes, or explanations.`;
+                                break;
+                            case "signature":
+                                prompt = `Create an email signature different from but based on: "${currentValue}". Provide ONLY the new signature, without any additional text, quotes, or explanations.`;
+                                break;
+                            case "auto_generated":
+                                prompt = `Write a brief auto-generated/do not reply message based on: "${currentValue}". Respond with ONLY the new message, without any additional text, quotes, or explanations.`;
+                                break;
+                            case "footer_text":
+                                prompt = `Create an email footer text, maintaining the same structure and links but different from: "${currentValue}". Provide ONLY the new footer text, without any additional words, quotes, or explanations.`;
+                                break;
+                            default:
+                                prompt = `Rewrite this text in a different style: "${currentValue}". Respond with ONLY the new text, without any additional words, quotes, or explanations.`;
+                        }
+
+                        try {
+                            let suggestion = await getAIRecommendation(
+                                prompt
+                            );
+                            suggestion = suggestion.replace(
+                                /^["']|["']$|^Subject:\s*|^---\s*/g,
+                                ""
+                            );
+                            inputElement.value = suggestion;
+                            if (
+                                inputElement.tagName.toLowerCase() ===
+                                "textarea"
+                            ) {
+                                autoResizeTextarea(inputElement);
+                            }
+
+                            inputElement.dispatchEvent(new Event('input', { bubbles: true }));
+
+                            updatePreview();
+                            formChanged = true;
+
+                            if (restoreButton) {
+                                restoreButton.style.display = "inline-block";
+                            }
+                            if (keepButton) {
+                                keepButton.style.display = "inline-block";
+                            }
+                        } catch (error) {
+                            console.error(
+                                "Error getting AI suggestion:",
+                                error
+                            );
+                            alert(
+                                "Failed to get AI suggestion. Please try again."
+                            );
+                        } finally {
+                            // Re-enable button and restore original text
+                            suggestButton.disabled = false;
+                            suggestButton.textContent = originalText;
+                            suggestButton.style.background = originalColor;
+                        }
+                    }
+
+
+async function generateImage(prompt) {
+  const generateButton = document.getElementById('generate_image');
+  const imagePreview = document.getElementById('image_preview');
+  const imageControls = document.getElementById('image_controls');
+  const loadingIndicator = document.createElement('div');
+  loadingIndicator.textContent = 'Generating...';
+
+  try {
+    generateButton.disabled = true;
+    imagePreview.innerHTML = '';
+    imagePreview.appendChild(loadingIndicator);
+    imageControls.style.display = 'none';
+
+    const response = await fetch('https://my-claude-proxy.vercel.app/api/generate-image', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({ prompt })
+    });
+
+    if (!response.ok) {
+      const errorData = await response.json();
+      throw new Error(`HTTP error! status: ${response.status}, details: ${JSON.stringify(errorData)}`);
+    }
+
+    const result = await response.json();
+    const imageUrl = result.image_url;
+
+    // Create an image element and set its source
+    const img = new Image();
+    img.onload = function() {
+      uploadedImage = img;
+      imagePreview.innerHTML = '';
+      imagePreview.appendChild(img);
+      imageControls.style.display = 'block';
+      updatePreview();
+    };
+    img.src = imageUrl;
+
+    return imageUrl;
+  } catch (error) {
+    console.error('Error generating image:', error);
+    imagePreview.innerHTML = 'Failed to generate image. Please try again.';
+    throw error;
+  } finally {
+    generateButton.disabled = false;
+  }
+}
+
+// Update the event listener for the generate image button
+document.getElementById('generate_image').addEventListener('click', async () => {
+  const prompt = document.getElementById('image_prompt').value;
+  try {
+    await generateImage(prompt);
+  } catch (error) {
+    alert('Failed to generate image. Please check the console for more details.');
+  }
+});
+
+                    function restoreOriginal(inputId) {
+                        const inputElement =
+                            document.getElementById(inputId);
+                        if (originalTexts[inputId]) {
+                            inputElement.value = originalTexts[inputId];
+
+                            inputElement.dispatchEvent(new Event('input', { bubbles: true }));
+
+                            updatePreview();
+                            formChanged = true;
+
+                            const restoreButton =
+                                inputElement.parentNode.querySelector(
+                                    ".restore-original"
+                                );
+                            const keepButton =
+                                inputElement.parentNode.querySelector(
+                                    ".keep-suggestion"
+                                );
+                            if (restoreButton) {
+                                restoreButton.style.display = "none";
+                            }
+
+                            delete originalTexts[inputId];
+
+                            if (keepButton) {
+                                keepButton.style.display = "none";
+                            }
+                        }
+                    }
+
+                    function addAIButtons() {
+    for (const inputId of Object.keys(inputFields)) {
+        // Skip ai_role AND image_upload
+        if (inputId !== "ai_role" && inputId !== "image_upload") {
+            const inputElement = document.getElementById(inputId);
+            let buttonContainer = inputElement.parentNode.querySelector(".button-container");
+
+            if (!buttonContainer) {
+                buttonContainer = document.createElement("div");
+                buttonContainer.className = "button-container";
+                inputElement.parentNode.insertBefore(
+                    buttonContainer,
+                    inputElement.previousSibling
+                );
+            } else {
+                buttonContainer.innerHTML = "";
+            }
+
+            const suggestButton = document.createElement("button");
+// Create the SVG element and set its content
+const svgElement = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+svgElement.setAttribute("width", "12");
+svgElement.setAttribute("height", "12");
+svgElement.setAttribute("fill", "currentColor");
+svgElement.setAttribute("class", "bi bi-magic");
+svgElement.setAttribute("viewBox", "0 0 16 16");
+svgElement.style.marginRight = "5px";  // Add spacing between icon and text
+
+const path = document.createElementNS("http://www.w3.org/2000/svg", "path");
+path.setAttribute("d", "M9.5 2.672a.5.5 0 1 0 1 0V.843a.5.5 0 0 0-1 0zm4.5.035A.5.5 0 0 0 13.293 2L12 3.293a.5.5 0 1 0 .707.707zM7.293 4A.5.5 0 1 0 8 3.293L6.707 2A.5.5 0 0 0 6 2.707zm-.621 2.5a.5.5 0 1 0 0-1H4.843a.5.5 0 1 0 0 1zm8.485 0a.5.5 0 1 0 0-1h-1.829a.5.5 0 0 0 0 1zM13.293 10A.5.5 0 1 0 14 9.293L12.707 8a.5.5 0 1 0-.707.707zM9.5 11.157a.5.5 0 0 0 1 0V9.328a.5.5 0 0 0-1 0zm1.854-5.097a.5.5 0 0 0 0-.706l-.708-.708a.5.5 0 0 0-.707 0L8.646 5.94a.5.5 0 0 0 0 .707l.708.708a.5.5 0 0 0 .707 0l1.293-1.293Zm-3 3a.5.5 0 0 0 0-.706l-.708-.708a.5.5 0 0 0-.707 0L.646 13.94a.5.5 0 0 0 0 .707l.708.708a.5.5 0 0 0 .707 0z");
+
+svgElement.appendChild(path);
+
+// Create a container for the SVG and text
+const buttonContent = document.createElement("div");
+buttonContent.style.display = "flex";
+buttonContent.style.alignItems = "center";
+buttonContent.appendChild(svgElement);
+buttonContent.appendChild(document.createTextNode("AI Assist"));
+
+suggestButton.appendChild(buttonContent);
+suggestButton.className = "ai-suggest";
+suggestButton.dataset.inputId = inputId;
+suggestButton.onclick = () => suggestAlternative(inputId);
+
+            const restoreButton = document.createElement("button");
+            restoreButton.textContent = "Restore";
+            restoreButton.className = "restore-original";
+            restoreButton.style.display = "none";
+            restoreButton.onclick = () => restoreOriginal(inputId);
+
+            const keepButton = document.createElement("button");
+            keepButton.textContent = "Keep";
+            keepButton.className = "keep-suggestion";
+            keepButton.style.display = "none";
+            keepButton.onclick = () => keepSuggestion(inputId);
+
+            buttonContainer.appendChild(suggestButton);
+            buttonContainer.appendChild(restoreButton);
+            buttonContainer.appendChild(keepButton);
+        }
+    }
+}
+                    function keepSuggestion(inputId) {
+                        const inputElement =
+                            document.getElementById(inputId);
+                        originalTexts[inputId] = inputElement.value;
+
+                        const restoreButton =
+                            inputElement.parentNode.querySelector(
+                                ".restore-original"
+                            );
+                        const keepButton =
+                            inputElement.parentNode.querySelector(
+                                ".keep-suggestion"
+                            );
+                        if (restoreButton) {
+                            restoreButton.style.display = "none";
+                        }
+                        if (keepButton) {
+                            keepButton.style.display = "none";
+                        }
+                    }
+
+                    function parseMarkdown(text) {
+                        return (
+                            text
+                                // Headers
+                                .replace(/\*\*\*(.*?)\*\*\*/g, '<strong style="color:#0070A9">$1</strong>')
+                                .replace(/^### (.*$)/gim, "<h3>$1</h3>")
+                                .replace(/^## (.*$)/gim, "<h2>$1</h2>")
+                                .replace(/^# (.*$)/gim, "<h1>$1</h1>")
+                                // Bold
+                                .replace(
+                                    /\*\*(.*?)\*\*/g,
+                                    "<strong>$1</strong>"
+                                )
+                                // Italic
+                                .replace(/\*(.*?)\*/g, "<em>$1</em>")
+                                // Links
+                                .replace(
+                                    /\[([^\]]+)\]\(([^)]+)\)/g,
+                                    '<a href="$2" style="color:#0070A9;text-decoration:underline;">$1</a>'
+                                )
+                                // Unordered list items
+                                .replace(/^\* (.+)/gm, "<li>$1</li>")
+                                // Wrap unordered list items with <ul>
+                                .replace(/(<li>.*<\/li>)/s, "<ul>$1</ul>")
+                                // Blockquotes
+                                .replace(
+                                    /^> (.+)/gm,
+                                    "<blockquote>$1</blockquote>"
+                                )
+                                // Strikethrough
+                                .replace(/~~(.*?)~~/g, "<del>$1</del>")
+                                // Superscript
+                                .replace(/\^(.*?)\^/g, "<sup>$1</sup>")
+                                // Code blocks
+                                .replace(
+                                    /```(\w+)?\n([\s\S]*?)```/g,
+                                    '<pre><code class="language-$1">$2</code></pre>'
+                                )
+                                // Inline code
+                                .replace(/`([^`]+)`/g, "<code>$1</code>")
+                                // Horizontal rule
+                                .replace(/^(-{3}|_{3})$/gm, "<hr>")
+                                // Line breaks
+                                .replace(/\n/g, "<br>")
+                        );
+                    }
+
+                    function getCurrentFilename() {
+                        const path = window.location.pathname;
+                        return path.substring(path.lastIndexOf("/") + 1);
+                    }
+
+                    function updatePreview() {
+    console.log("Updating preview...");
+    updateSubjectAndPreheader();
+
+    const draggableContainer = document.getElementById('draggable-container');
+    const previewContainer = document.querySelector('#template-preview td');
+
+    console.log("Preview container:", previewContainer);
+
+    // Clear existing preview content (except for the logo)
+    const logo = previewContainer.querySelector("img[alt='Aflac Logo']");
+    previewContainer.innerHTML = "";
+    previewContainer.appendChild(logo);
+
+    // Update preview for draggable elements
+    draggableContainer.querySelectorAll(".input-group").forEach((group) => {
+        const inputId = group.dataset.inputId;
+        const inputElement = document.getElementById(inputId);
+        const toggleElement = document.getElementById(`toggle_${inputId}`);
+
+        console.log("Processing input:", inputId);
+
+        if (!inputElement || inputId === "footer_text") return;
+
+        const inputValue = inputElement.value;
+        const isVisible = toggleElement && toggleElement.checked;
+
+        if (!isVisible) return;
+
+        console.log("Creating preview for:", inputId);
+
+        let previewElement;
+        switch (inputId) {
+            case "image_upload":
+        if (uploadedImage) {
+          previewElement = document.createElement("img");
+          previewElement.src = uploadedImage.src;
+          previewElement.style.maxWidth = "100%";
+          previewElement.style.height = "auto";
+          previewElement.id = "preview-image";
+        }
+        break;
+            case "header1":
+                previewElement = document.createElement("h1");
+                previewElement.id = "preview-header1";
+                previewElement.style.cssText = "display: block; margin-bottom: 40px; margin-top: 0; margin-left: 30px; margin-right: 30px; color: #0070A9; font-size: 48px; line-height: 50px; font-weight: 700;";
+                break;
+            case "salutation":
+                previewElement = document.createElement("h2");
+                previewElement.id = "preview-salutation";
+                previewElement.style.cssText = "margin: 0px; margin-bottom: 20px; margin-left: 30px; margin-right: 30px; font-weight: normal; font-size: 26px; text-align: left; line-height: 30px; color: rgb(0, 112, 169); display: block;";
+                break;
+            case "bodycontent1":
+            case "bodycontent2":
+                previewElement = document.createElement("p");
+                previewElement.id = `preview-${inputId}`;
+                previewElement.style.cssText = "display: block; font-size: 16px; line-height: 28px; color: #555555; text-align: left; padding: 0px 0; margin: 20px 30px 20px 30px";
+                break;
+            case "button1":
+                previewElement = document.createElement("div");
+                previewElement.style.textAlign = "center";
+                previewElement.style.padding = "20px 0";
+                previewElement.style.cssText = "display: block; align-items: center";
+                const buttonLink = document.createElement("a");
+                buttonLink.href = inputValue.match(/\[([^\]]*)\]\(([^)]+)\)/)?.[2] || "#";
+                buttonLink.className = "buttonblock";
+                buttonLink.id = "preview-button1";
+                buttonLink.textContent = inputValue.replace(/\[([^\]]*)\]\(([^)]+)\)/, "$1");
+                previewElement.appendChild(buttonLink);
+                break;
+            case "signature":
+                previewElement = document.createElement("p");
+                previewElement.id = "signature-preview";
+                previewElement.style.cssText = "display: block; font-size: 16px; line-height: 28px; color: #555555; text-align: left; padding: 00px 30px 0px; margin: 0;";
+                break;
+            case "auto_generated":
+                previewElement = document.createElement("p");
+                previewElement.id = "auto-generated-preview";
+                previewElement.style.cssText = "font-size: 14px; line-height: 24px; color: rgb(85, 85, 85); display: block; padding: 30px 30px 20px 30px";
+                break;
+            default:
+                previewElement = document.createElement("p");
+                previewElement.id = `preview-${inputId}`;
+        }
+
+        if (previewElement) {
+            if (inputId !== "button1") {
+                previewElement.innerHTML = parseMarkdown(inputValue);
+            }
+            previewContainer.appendChild(previewElement);
+            console.log("Added preview element for:", inputId);
+        }
+    });
+
+    // Update footer separately
+    updateFooter();
+    console.log("Preview update complete");
+}
+
+
+
+                    function updateFooter() {
+                        const footerInput =
+                            document.getElementById("footer_text");
+                        const footerToggle =
+                            document.getElementById("toggle_footer_text");
+                        const footerWrapper = document.querySelector(
+                            "#template-preview .footer-wrapper"
+                        );
+                        const footerTextPreview = document.getElementById(
+                            "footer-text-preview"
+                        );
+
+                        if (
+                            footerWrapper &&
+                            footerTextPreview &&
+                            footerInput &&
+                            footerToggle
+                        ) {
+                            footerWrapper.style.display = footerToggle.checked
+                                ? "table-cell"
+                                : "none";
+                            footerTextPreview.innerHTML = parseMarkdown(
+                                footerInput.value
+                            );
+                        }
+                    }
+
+                    function updateSubjectAndPreheader() {
+                        const subjectElement = document.getElementById(
+                            "preview-subject-line"
+                        );
+                        const preheaderElement =
+                            document.getElementById("preheader-preview");
+                        const wrapperElement = subjectElement.closest(
+                            ".email-content-wrapper"
+                        );
+
+                        if (
+                            subjectElement &&
+                            preheaderElement &&
+                            wrapperElement
+                        ) {
+                            subjectElement.textContent =
+                                document.getElementById("subject_line").value;
+                            preheaderElement.textContent =
+                                document.getElementById("preheader").value;
+                            wrapperElement.title = `${subjectElement.textContent} ${preheaderElement.textContent}`;
+                        }
+                    }
+
+                    function importFromWord(file) {
+                        mammoth
+                            .convertToHtml({ arrayBuffer: file })
+                            .then(function (result) {
+                                console.log("HTML conversion successful");
+                                const html = result.value;
+                                const parser = new DOMParser();
+                                const doc = parser.parseFromString(
+                                    html,
+                                    "text/html"
+                                );
+
+                                if (result.messages.length > 0) {
+                                    console.warn(
+                                        "Warnings during conversion:",
+                                        result.messages
+                                    );
+                                }
+
+                                const headings = doc.querySelectorAll(
+                                    "h1, h2, h3, h4, h5, h6"
+                                );
+
+                                headings.forEach((heading) => {
+                                    const headingText = heading.textContent
+                                        .trim()
+                                        .toLowerCase()
+                                        .replace(/\s+/g, " ");
+                                    console.log(
+                                        "Processing heading:",
+                                        headingText
+                                    );
+
+                                    if (headingText === "selected ai model:") {
+                                        const modelValue =
+                                            heading.nextElementSibling.textContent.trim();
+                                        document.getElementById(
+                                            "model-select"
+                                        ).value = modelValue;
+                                        currentModel = modelValue;
+                                        return;
+                                    }
+
+                                    let inputId = Object.keys(inputFields).find(
+                                        (key) => {
+                                            const keyWords = key
+                                                .replace(/[0-9]/g, "")
+                                                .split("_");
+                                            return keyWords.every((word) =>
+                                                headingText.includes(word)
+                                            );
+                                        }
+                                    );
+
+                                    // Special handling for compound names
+                                    if (!inputId) {
+                                        if (headingText.includes("header content"))
+                                            inputId = "header1";
+                                        else if (
+                                            headingText.includes("body content") &&
+                                            !headingText.includes("2")
+                                        )
+                                            inputId = "bodycontent1";
+                                        else if (
+                                            headingText.includes("body content 2")
+                                        )
+                                            inputId = "bodycontent2";
+                                        else if (
+                                            headingText.includes("button text")
+                                        )
+                                            inputId = "button1";
+                                    }
+
+                                    // Special handling for AI Role
+                                    if (headingText.includes("ai role")) {
+                                        inputId = "ai-role";
+                                    }
+
+                                    if (inputId) {
+                                        console.log(
+                                            "Matched input field:",
+                                            inputId
+                                        );
+                                        let content = "";
+                                        let toggleState = null;
+                                        let nextElement =
+                                            heading.nextElementSibling;
+
+                                        while (
+                                            nextElement &&
+                                            !nextElement.matches(
+                                                "h1, h2, h3, h4, h5, h6"
+                                            )
+                                        ) {
+                                            if (
+                                                nextElement.textContent.startsWith(
+                                                    "Toggle State:"
+                                                )
+                                            ) {
+                                                toggleState =
+                                                    nextElement.textContent.includes(
+                                                        "On"
+                                                    );
+                                            } else {
+                                                content +=
+                                                    nextElement.textContent + "\n";
+                                            }
+                                            nextElement =
+                                                nextElement.nextElementSibling;
+                                        }
+
+                                        const inputElement =
+                                            document.getElementById(inputId);
+                                        if (inputElement) {
+                                            inputElement.value = content.trim();
+                                            console.log(
+                                                "Updated input field:",
+                                                inputId
+                                            );
+                                            if (
+                                                inputElement.tagName.toLowerCase() ===
+                                                "textarea"
+                                            ) {
+                                                autoResizeTextarea(inputElement);
+                                            }
+                                        } else {
+                                            console.warn(
+                                                "Input element not found:",
+                                                inputId
+                                            );
+                                        }
+
+                                        
+       
+
+                                        const toggleElement =
+                                            document.getElementById(
+                                                `toggle_${inputId}`
+                                            );
+                                        if (toggleElement && toggleState !== null) {
+                                            toggleElement.checked = toggleState;
+                                            console.log(
+                                                "Updated toggle state:",
+                                                inputId,
+                                                toggleState
+                                            );
+                                        }
+                                    } else {
+                                        console.warn(
+                                            "No matching input field for heading:",
+                                            headingText
+                                        );
+                                    }
+                                });
+
+                                 // After processing other fields, check for image data
+                                 if (templateData.image_upload) {
+    uploadedImage = new Image();
+    uploadedImage.onload = function() {
+      imagePreview.innerHTML = '';
+      imagePreview.appendChild(uploadedImage);
+      imageControls.style.display = 'block';
+      document.getElementById('image_prompt').value = templateData.image_upload.prompt || '';
+      updatePreview();
+    }
+    uploadedImage.src = templateData.image_upload.value;
+    document.getElementById('toggle_image_upload').checked = templateData.image_upload.checked;
+  }
+
+                                updatePreview();
+                                formChanged = true;
+                                console.log("Import completed successfully");
+                            })
+                            .catch(function (error) {
+                                console.error(
+                                    "Error in importFromWord:",
+                                    error
+                                );
+                                alert(
+                                    "Error importing Word document: " +
+                                    error.message
+                                );
+                            });
+                    }
+
+                    addAIButtons();
+                    updatePreview();
+
+                    const filenameDisplay =
+                        document.getElementById("filename-display");
+                    if (filenameDisplay) {
+                        const currentFilename = getCurrentFilename();
+                        filenameDisplay.textContent =
+                            currentFilename !== "email_template_creator.html"
+                                ? ` [${currentFilename}]`
+                                : "";
+                    }
+
+                    window.addEventListener("beforeunload", function (e) {
+                        if (formChanged) {
+                            e.preventDefault();
+                            e.returnValue = "";
+                        }
+                    });
+
+                    function saveTemplate() {
+    const templateData = {};
+    for (const inputId of Object.keys(inputFields)) {
+        if (inputId === "ai_role") {
+            templateData[inputId] = {
+                value: document.getElementById("ai-role").value,
+                checked: true,
+            };
+        } else {
+            templateData[inputId] = {
+                value: document.getElementById(inputId).value,
+                checked:
+                    inputId === "subject_line" ||
+                    inputId === "preheader" ||
+                    document.getElementById(`toggle_${inputId}`).checked,
+            };
+        }
+    }
+    
+    // Add image data to templateData
+    if (uploadedImage) {
+    templateData.image_upload = {
+      value: uploadedImage.src,
+      checked: document.getElementById('toggle_image_upload').checked,
+      prompt: document.getElementById('image_prompt').value
+    };
+  }
+                        // Add AI role from settings modal
+                        const aiRoleElement =
+                            document.getElementById("ai-role");
+                        if (aiRoleElement) {
+                            templateData["ai_role"] = {
+                                value: aiRoleElement.value,
+                                checked: true,
+                            };
+                        }
+
+                        const docCopy = document.cloneNode(true);
+
+                        for (const [inputId, data] of Object.entries(
+                            templateData
+                        )) {
+                            const inputElement = docCopy.getElementById(
+                                inputId === "ai_role" ? "ai-role" : inputId
+                            );
+                            const toggleElement = docCopy.getElementById(
+                                `toggle_${inputId}`
+                            );
+                            if (inputElement) {
+                                inputElement.value = data.value;
+                            }
+                            if (
+                                toggleElement &&
+                                inputId !== "subject_line" &&
+                                inputId !== "preheader" &&
+                                inputId !== "ai_role"
+                            ) {
+                                toggleElement.checked = data.checked;
+                            }
+                        }
+
+                        const aiButtons = docCopy.querySelectorAll(
+                            ".ai-suggest, .restore-original, .btn, .btn-shadow-drop, .btn-shadow-drop--black"
+                        );
+                        aiButtons.forEach((button) => button.remove());
+
+                        const buttonContainers =
+                            docCopy.querySelectorAll(".button-container");
+                        buttonContainers.forEach((container) =>
+                            container.remove()
+                        );
+
+                        const previewPane =
+                            docCopy.getElementById("template-preview");
+                        if (previewPane) {
+                            const previewElements =
+                                previewPane.querySelectorAll(
+                                    '[id$="-preview"]'
+                                );
+                            previewElements.forEach((element) => {
+                                if (element.tagName.toLowerCase() === "a") {
+                                    element.textContent = "";
+                                    element.href = "#";
+                                } else {
+                                    element.textContent = "";
+                                }
+                            });
+                        }
+
+                        const script = docCopy.createElement("script");
+                        script.textContent = `
+    document.addEventListener('DOMContentLoaded', () => {
+        const inputFields = ${JSON.stringify(inputFields)};
+        let originalTexts = {};
+        let formChanged = false;
+        let currentModel = "${currentModel}"; // Add this line
+
+        ${getAIRecommendation.toString()}
+        ${suggestAlternative.toString()}
+        ${restoreOriginal.toString()}
+        ${addAIButtons.toString()}
+        ${parseMarkdown.toString()}
+        ${updatePreview.toString()}
+        ${getCurrentFilename.toString()}
+
+        const templateData = ${JSON.stringify(templateData)};
+                for (const [inputId, data] of Object.entries(templateData)) {
+                    const inputElement = document.getElementById(inputId === 'ai_role' ? 'ai-role' : inputId);
+                    const toggleElement = document.getElementById(\`toggle_\${inputId}\`);
+                    if (inputElement) {
+                        inputElement.value = data.value;
+                    }
+                    if (toggleElement && inputId !== 'subject_line' && inputId !== 'preheader' && inputId !== 'ai_role') {
+                        toggleElement.checked = data.checked;
+                    }
+                }
+
+                // Add this block for AI role initialization
+                const aiRoleElement = document.getElementById('ai-role');
+                if (aiRoleElement) {
+                    aiRoleElement.value = ${JSON.stringify(
+                            templateData["ai_role"].value
+                        )};
+                }
+
+                // Set the selected model
+                const modelSelect = document.getElementById('model-select');
+                if (modelSelect) {
+                    modelSelect.value = currentModel;
+                }
+
+                for (const inputId of Object.keys(inputFields)) {
+                    const inputElement = document.getElementById(inputId);
+                    const toggleElement = document.getElementById(\`toggle_\${inputId}\`);
+                   
+                    if (inputElement) {
+                        inputElement.addEventListener('input', () => {
+                            formChanged = true;
+                            updatePreview();
+                        });
+                    }
+                    if (toggleElement && inputId !== 'subject_line' && inputId !== 'preheader' && inputId !== 'ai_role') {
+                        toggleElement.addEventListener('change', () => {
+                            formChanged = true;
+                            updatePreview();
+                        });
+                    }
+                }
+
+                updatePreview();
+                addAIButtons();
+               
+                const filenameDisplay = document.getElementById('filename-display');
+                if (filenameDisplay) {
+                    const currentFilename = getCurrentFilename();
+                    filenameDisplay.textContent = currentFilename ? \` [\${currentFilename}]\` : '';
+                }
+            });
+        `;
+                        docCopy.body.appendChild(script);
+
+                        const blob = new Blob(
+                            [docCopy.documentElement.outerHTML],
+                            { type: "text/html" }
+                        );
+                        const a = document.createElement("a");
+                        a.href = URL.createObjectURL(blob);
+                        a.download = "email_template.html";
+                        a.click();
+                        URL.revokeObjectURL(a.href);
+
+                        formChanged = false;
+                    }
+
+                    function exportImage() {
+    const previewPane = document.getElementById("template-preview");
+    const clone = previewPane.cloneNode(true);
+
+    // Force the clone to have the collapsed state
+    clone.classList.add('collapsed');
+    clone.querySelector('.tableinbox').classList.add('collapsed');
+    clone.querySelector('.tableinbox2').classList.add('collapsed');
+
+    Object.assign(clone.style, {
+        position: "absolute",
+        left: "-9999px",
+        top: "0",
+        width: `${previewPane.offsetWidth}px`,
+        height: "auto",
+        transform: "none",
+        overflow: "visible",
+        backgroundColor: "#f1f3f4", // Match the collapsed background color
+    });
+
+    document.body.appendChild(clone);
+
+    html2canvas(clone, {
+        allowTaint: true,
+        useCORS: true,
+        letterRendering: 1,
+        logging: true,
+        windowWidth: clone.offsetWidth,
+        windowHeight: clone.scrollHeight,
+        scale: 2,
+        backgroundColor: "#f1f3f4", // Ensure background color is captured
+    })
+    .then((canvas) => {
+        document.body.removeChild(clone);
+
+        canvas.toBlob((blob) => {
+            navigator.clipboard
+                .write([
+                    new ClipboardItem({ "image/png": blob }),
+                ])
+                .then(() => {
+                    alert("Preview copied to clipboard successfully!");
+                })
+                .catch((err) => {
+                    console.error("Error copying to clipboard:", err);
+                    alert("Failed to copy preview to clipboard. Please try again.");
+                });
+        });
+    })
+    .catch((error) => {
+        console.error("Error in html2canvas:", error);
+        document.body.removeChild(clone);
+        alert("Failed to generate preview image. Please try again.");
+    });
+}
+
+
+                    const fullscreenToggle =
+                        document.getElementById("fullscreen-toggle");
+                    const inputPane =
+                        document.querySelector(".input-pane");
+                    const pane =
+                        document.querySelector(".pane");
+                    const panepreview =
+                        document.querySelector("#template-preview.pane");
+                    const tablepreview =
+                        document.querySelector(".tableinbox");
+                    const tablepreview2 =
+                        document.querySelector(".tableinbox2");
+                    const container =
+                        document.querySelector(".container");
+                    const mainicons =
+                        document.querySelector(".mainicons");
+
+
+
+
+                    fullscreenToggle.addEventListener("click", () => {
+                        inputPane.classList.toggle("collapsed");
+                        pane.classList.toggle("collapsed");
+                        panepreview.classList.toggle("collapsed");
+                        tablepreview.classList.toggle("collapsed");
+                        tablepreview2.classList.toggle("collapsed");
+                        container.classList.toggle("collapsed");
+                        mainicons.classList.toggle("collapsed");
+                        menuContent.classList.toggle("collapsed");
+                        document.getElementsByTagName('body')[0].classList.toggle('backgroundbody');
+
+                        const fullscreenSVG = fullscreenToggle.querySelector('.bi-fullscreen');
+                        const fullscreenExitSVG = fullscreenToggle.querySelector('.bi-fullscreen-exit');
+                        if (fullscreenSVG.style.display === 'none') {
+                            fullscreenSVG.style.display = 'block';
+                            fullscreenExitSVG.style.display = 'none';
+                        } else {
+                            fullscreenSVG.style.display = 'none';
+                            fullscreenExitSVG.style.display = 'block';
+                        }
+                    
+                    });
+
+                    
+
+                    // Add event listener for the AI role input
+                    document
+                        .getElementById("ai-role")
+                        .addEventListener("input", () => {
+                            formChanged = true;
+                        });
+
+                    const exportWordBtn =
+                        document.getElementById("export-word-button");
+                    if (exportWordBtn) {
+                        exportWordBtn.removeEventListener(
+                            "click",
+                            exportToWord
+                        );
+                        exportWordBtn.addEventListener(
+                            "click",
+                            function (event) {
+                                event.preventDefault();
+                                exportToWord();
+                            }
+                        );
+                    }
+
+            
+
+                    const draggableContainer = document.getElementById('draggable-container');
+let draggingElem = null;
+let placeholder = null;
+let initialPosition = null;
+let dragStartY = 0;
+
+if (!draggableContainer) {
+    console.error("Draggable container not found!");
+} else {
+    draggableContainer.addEventListener('mousedown', function (e) {
+        console.log('Mouse down on:', e.target);
+
+        // Check if the click is inside an input, textarea, or on text content
+        if (e.target.isContentEditable ||
+            e.target.matches('input, textarea')) {
+            console.log('Clicked on text input');
+            return; // Allow default behavior for text selection
+        }
+
+        // Only initiate drag if the grab handle (grabbable-svg) is clicked
+        if (e.target.matches('.grabbable-svg, .grabbable-svg *')) {
+            console.log('Initiating drag');
+            const inputGroup = e.target.closest('.input-group');
+            if (inputGroup) {
+                e.preventDefault();
+                e.stopPropagation(); // Stop the event from bubbling up
+                initiateDrag(inputGroup, e.clientY);
+            }
+        } else {
+            console.log('Clicked on other element');
+        }
+    });
+
+    function initiateDrag(inputGroup, clientY) {
+    draggingElem = inputGroup;
+    initialPosition = Array.from(draggableContainer.children).indexOf(draggingElem);
+
+    const rect = inputGroup.getBoundingClientRect();
+    dragStartY = clientY - rect.top;
+
+    placeholder = document.createElement('div');
+    placeholder.className = 'drag-placeholder';
+    placeholder.style.height = `${rect.height}px`;
+    draggingElem.parentNode.insertBefore(placeholder, draggingElem.nextSibling);
+
+    draggingElem.dataset.originalStyles = draggingElem.style.cssText;
+    draggingElem.classList.add('dragging');
+
+    Object.assign(draggingElem.style, {
+        position: 'fixed',
+        zIndex: '1000',
+        width: `${rect.width}px`,
+        top: `${clientY - dragStartY}px`,
+        boxSizing: 'border-box'
+    });
+
+    document.addEventListener('mousemove', onMouseMove);
+    document.addEventListener('mouseup', onMouseUp);
+    document.body.style.userSelect = 'none';
+}
+
+function onMouseMove(e) {
+    if (!draggingElem) return;
+    draggingElem.style.top = `${e.clientY - dragStartY}px`;
+    
+    const afterElement = getDragAfterElement(draggableContainer, e.clientY);
+    if (afterElement == null) {
+        draggableContainer.appendChild(placeholder);
+    } else {
+        draggableContainer.insertBefore(placeholder, afterElement);
+    }
+}
+
+function onMouseUp() {
+    if (!draggingElem) return;
+
+    // Remove dragging class
+    draggingElem.classList.remove('dragging');
+    
+    // Restore original styles with position adjustments
+    draggingElem.style.cssText = draggingElem.dataset.originalStyles;
+    
+    // Insert element at new position
+    placeholder.parentNode.insertBefore(draggingElem, placeholder);
+    placeholder.parentNode.removeChild(placeholder);
+
+    // Update form state if position changed
+    const finalPosition = Array.from(draggableContainer.children).indexOf(draggingElem);
+    if (initialPosition !== finalPosition) {
+        formChanged = true;
+    }
+
+    // Clean up
+    draggingElem = null;
+    placeholder = null;
+    initialPosition = null;
+    document.removeEventListener('mousemove', onMouseMove);
+    document.removeEventListener('mouseup', onMouseUp);
+    document.body.style.userSelect = '';
+
+    // Update preview
+    updatePreview();
+}
+
+    function getDragAfterElement(container, y) {
+        const draggableElements = [...container.querySelectorAll('.input-group:not(.dragging):not(.drag-placeholder)')];
+
+        return draggableElements.reduce((closest, child) => {
+            const box = child.getBoundingClientRect();
+            const offset = y - box.top - box.height / 2;
+            if (offset < 0 && offset > closest.offset) {
+                return { offset: offset, element: child };
+            } else {
+                return closest;
+            }
+        }, { offset: Number.NEGATIVE_INFINITY }).element;
+    }
+
+    // Ensure input fields aren't draggable
+    draggableContainer.querySelectorAll('input, textarea').forEach(input => {
+        input.draggable = false;
+        input.addEventListener('mousedown', function(e) {
+            e.stopPropagation();
+        });
+    });
+
+    // Ensure input groups aren't draggable
+    draggableContainer.querySelectorAll('.input-group').forEach(group => {
+        group.draggable = false;
+    });
+
+    console.log('Drag and drop listeners set up with form change detection');
+}
+               
+
+                const hamburgerMenu = document.getElementById('hamburger-menu');
+const menuOverlay = document.getElementById('menu-overlay');
+const menuContent = document.querySelector('.menu-content'); // Use querySelector for class
+
+// Function to reset the hamburger menu
+function resetHamburgerMenu() {
+    hamburgerMenu.classList.remove('change');
+    menuContent.classList.remove('show');
+    menuOverlay.classList.remove('show');
+    menuOverlay.classList.remove('visible');
+}
+
+// Function to show or hide the menu overlay
+function toggleMenuOverlay() {
+    hamburgerMenu.classList.toggle('change');
+    if (menuOverlay.classList.contains('show')) {
+        menuContent.classList.remove('show');
+        menuOverlay.addEventListener('transitionend', function() {
+            if (!menuOverlay.classList.contains('show')) {
+                menuOverlay.classList.remove('visible');
+            }
+        }, { once: true });
+        menuOverlay.classList.remove('show');
+    } else {
+        menuOverlay.classList.add('visible');
+        requestAnimationFrame(() => {
+            menuOverlay.classList.add('show');
+            menuContent.classList.add('show');
+        });
+    }
+}
+
+hamburgerMenu.addEventListener('click', toggleMenuOverlay);
+
+menuOverlay.addEventListener('click', function(e) {
+    if (e.target === menuOverlay) {
+        resetHamburgerMenu();
+    }
+});
+
+// Modal functionality for Markup Guide and Settings
+
+const markdownButton = document.getElementById("markdown-guide-button");
+const settingsButton = document.getElementById("settings-button");
+const markdownClose = markdownModal.querySelector(".close");
+const settingsClose = settingsModal.querySelector(".close");
+
+// Function to open a modal
+function openModal(modal) {
+    modal.style.display = "flex";
+    modal.classList.add('show');
+}
+
+// Function to close a modal
+function closeModal(modal) {
+    modal.style.display = "none";
+    modal.classList.remove('show');
+    resetHamburgerMenu();
+}
+
+markdownButton.onclick = function() {
+    openModal(markdownModal);
+};
+
+settingsButton.onclick = function() {
+    openModal(settingsModal);
+};
+
+markdownClose.onclick = function() {
+    closeModal(markdownModal);
+};
+
+settingsClose.onclick = function() {
+    closeModal(settingsModal);
+};
+
+
+
+// Add event listeners for menu items
+const menuItems = [
+    { id: 'menu-markup-guide', targetButtonId: 'markdown-guide-button' },
+    { id: 'menu-export-html', targetButtonId: 'save-button' },
+    { id: 'menu-copy-clipboard', targetButtonId: 'copy-button' },
+    { id: 'menu-save-word', targetButtonId: 'export-word-button' },
+    { id: 'menu-load-word', targetButtonId: 'import-word-button' },
+    { id: 'menu-settings', targetButtonId: 'settings-button' }
+];
+
+menuItems.forEach(item => {
+    document.getElementById(item.id).addEventListener('click', function() {
+        document.getElementById(item.targetButtonId).click();
+        resetHamburgerMenu();
+    });
+});
+
+
+
+
+function updateTime() {
+                    const now = new Date();
+                    let hours = now.getHours();
+                    let minutes = now.getMinutes();
+                    const ampm = hours >= 12 ? 'PM' : 'AM';
+
+                    // Convert to 12-hour format
+                    hours = hours % 12;
+                    hours = hours ? hours : 12; // the hour '0' should be '12'
+
+                    // Add leading zero to minutes if needed
+                    minutes = minutes < 10 ? '0' + minutes : minutes;
+
+                    const timeString = `${hours}:${minutes} ${ampm}`;
+
+                    // Update the HTML element
+                    document.querySelector('.inbox-time').innerHTML = timeString + ' &#10095;';
+                }
+
+                // Update time immediately and then every minute
+                updateTime();
+                setInterval(updateTime, 60000);
+
+                // this is outside of the DOM addeventlistener~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+                function autoResizeTextarea(textarea) {
+                    textarea.style.height = "auto"; // Reset the height
+                    textarea.style.height = textarea.scrollHeight + "px"; // Set new height
+                }
+
+                // Get the modal
+                //var modal = document.getElementById("markdown-modal");
+
+                // Get the button that opens the modal
+                //var btn = document.getElementById(
+                //    "markdown-guide-button"
+               // );
+
+                // Get the <span> element that closes the modal
+                //var span = document.getElementsByClassName("close")[0];
+
+                // When the user clicks the button, open the modal
+                //btn.onclick = function () {
+                    //modal.style.display = "flex";
+                //};
+
+                // When the user clicks on <span> (x), close the modal
+
+
+
+                // When the user clicks anywhere outside of either modal, close it
+                window.onclick = function (event) {
+                    if (event.target == markdownModal) {
+                        closeModal(markdownModal);
+                    }
+                    if (event.target == settingsModal) {
+                        closeModal(settingsModal);
+                    }
+                };
+
+                
+
+                function exportToWord() {
+                    if (typeof docx === "undefined") {
+                        alert(
+                            "The required library for exporting to Word is not loaded. Please check your internet connection and reload the page."
+                        );
+                        return;
+                    }
+
+                    try {
+                        const doc = new docx.Document({
+                            styles: {
+                                default: {
+                                    document: {
+                                        run: {
+                                            font: "Calibri",
+                                            size: 22, // 11pt font
+                                        },
+                                    },
+                                },
+                                paragraphStyles: [
+                                    {
+                                        id: "Heading1",
+                                        name: "Heading 1",
+                                        run: {
+                                            font: "Calibri",
+                                            size: 32, // 16pt font
+                                            bold: true,
+                                        },
+                                        paragraph: {
+                                            spacing: { before: 240, after: 120 },
+                                            indent: { left: 0 },
+                                        },
+                                    },
+                                ],
+                            },
+                            sections: [
+                                {
+                                    properties: {},
+                                    children: [],
+                                },
+                            ],
+                        });
+
+                        const children = [];
+
+                        children.push(
+                            new docx.Paragraph({
+                                text: "Selected AI Model:",
+                                heading: docx.HeadingLevel.HEADING_1,
+                            }),
+                            new docx.Paragraph({
+                                text: document.getElementById("model-select")
+                                    .value,
+                            }),
+                            new docx.Paragraph({
+                                text: "",
+                            })
+                        );
+
+                        // Add all input fields
+                        for (const inputId of Object.keys(inputFields)) {
+                            const inputElement =
+                                document.getElementById(inputId);
+                            const toggleElement = document.getElementById(
+                                `toggle_${inputId}`
+                            );
+                            if (inputElement) {
+                                const label =
+                                    inputElement.previousElementSibling
+                                        ? inputElement.previousElementSibling
+                                            .textContent
+                                        : inputId;
+                                children.push(
+                                    new docx.Paragraph({
+                                        text: label,
+                                        heading: docx.HeadingLevel.HEADING_1,
+                                    }),
+                                    new docx.Paragraph({
+                                        text: inputElement.value,
+                                    }),
+                                    new docx.Paragraph({
+                                        text: `Toggle State: ${toggleElement
+                                            ? toggleElement.checked
+                                                ? "On"
+                                                : "Off"
+                                            : "N/A"
+                                            }`,
+                                    }),
+                                    new docx.Paragraph({
+                                        text: "",
+                                    })
+                                );
+                            }
+                        }
+
+                        // Add AI role
+                        const aiRoleElement =
+                            document.getElementById("ai-role");
+                        if (aiRoleElement) {
+                            children.push(
+                                new docx.Paragraph({
+                                    text: "AI Role for Suggestions:",
+                                    heading: docx.HeadingLevel.HEADING_1,
+                                }),
+                                new docx.Paragraph({
+                                    text: aiRoleElement.value,
+                                }),
+                                new docx.Paragraph({
+                                    text: "",
+                                })
+                            );
+                        }
+
+                        doc.addSection({
+                            children: children,
+                        });
+
+                        docx.Packer.toBlob(doc).then((blob) => {
+                            saveAs(blob, "email_template_content.docx");
+                        });
+                    } catch (error) {
+                        console.error("Error in exportToWord:", error);
+                        alert(
+                            "Error creating Word document. Please try again."
+                        );
+                    }
+                }
+
+                
+
+            });
+            document.addEventListener('DOMContentLoaded', function() {
+    // Add click handlers to all collapse arrows
+    document.querySelectorAll('.collapse-arrow').forEach(arrow => {
+        arrow.addEventListener('click', function() {
+            const inputGroup = this.closest('.input-group');
+            toggleSection(inputGroup);
+        });
+    });
+
+    // Add click handler for toggle all button
+    const toggleAllButton = document.getElementById('toggleAll');
+    let allExpanded = true;
+
+    toggleAllButton.addEventListener('click', function() {
+        const inputGroups = document.querySelectorAll('.input-group');
+        allExpanded = !allExpanded;
+        
+        inputGroups.forEach(group => {
+            if (allExpanded) {
+                group.classList.remove('collapsed');
+                group.querySelector('.collapse-arrow').classList.remove('collapsed');
+            } else {
+                group.classList.add('collapsed');
+                group.querySelector('.collapse-arrow').classList.add('collapsed');
+            }
+        });
+
+        this.textContent = allExpanded ? 'Collapse All' : 'Expand All';
+    });
+});
+
+function toggleSection(inputGroup) {
+    const arrow = inputGroup.querySelector('.collapse-arrow');
+    inputGroup.classList.toggle('collapsed');
+    arrow.classList.toggle('collapsed');
+}
+            </script>
+
+</body>
+
+</html>
