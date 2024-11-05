@@ -60,16 +60,12 @@ you need to remove position:absolute from 'close' class to fix X's on pop up men
             margin-left: auto;
             margin-right: auto;
             display: grid;
-            grid-template-columns: 1fr 1fr auto;
+            grid-template-columns: .75fr 1fr auto;
             gap: 20px;
             transition:min-width 1s 1s ease-out;
             /* background-color: transparent; */
             width: 100%;
             height: 100vh;
-        }
-
-        .container > div:nth-child(1){
-            border-right: 2px solid #555;
         }
 
 
@@ -94,38 +90,22 @@ you need to remove position:absolute from 'close' class to fix X's on pop up men
 
 
         .input-pane {
-            /* min-width: 540px; */
-            /* background-color: #ECFAFF; */
-            height: 100vh;
-            overflow-y: hidden;
-            z-index: 999;
-            margin: 20px 0px 20px 0px;
-            border-radius: 8px;
-            /* outline: 1px solid #788896; */
-            /* box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px; */
-            transform: translateX(0px);
-            transition: transform .3s ease-in-out;     
-            opacity: 1; 
-            position: relative;
-            padding-right: 25px;
-        }
+    min-width: 450px;
+    height: 100vh;
+    overflow-y: auto;
+    z-index: 999;
+    margin: 0px 0px 20px 0px;
+    border-radius: 10px;
+    transform: translateX(0px);
+    transition: transform .3s ease-in-out;     
+    opacity: 1; 
+    position: fixed;  /* Change from absolute to fixed */
+    top: 0;
+    //left: 0;     
+    padding: 20px 20px 20px 20px;
+    background-color: white;  /* Add this to ensure content doesn't show through */
+}
 
-        .scrollbox {
-            visibility: hidden;
-            }
-
-        .scrollbox-content,
-        .scrollbox:hover,
-        .scrollbox:focus {
-            visibility: visible;
-            }
-
-        .input-pane:hover{
-            /* outline: 2px solid #788896; */
-            overflow-y: scroll;
-            padding-right: 5px;
-
-        }
 
 
 
@@ -146,103 +126,180 @@ you need to remove position:absolute from 'close' class to fix X's on pop up men
             --label-input-spacing: 5px;
         }
 
+        #toggleAll {
+    /* margin-left: auto; */
+    display: block;
+    margin-bottom: 10px;
+}
+
         .input-group {
-            position: relative;
-            padding: 5px 15px 10px 10px;
-            margin-bottom: 15px;
-            background-color: #e0e0e0;
-            position: relative;  /* Ensure this is present */
-            border-radius: 8px;
-            display: flex;
-            flex-direction: column;
-            align-items: stretch;
-            transition: all .1s ease-in-out;
-            isolation: isolate;  /* Add this to create a new stacking context */
-            transition: all 0.3s ease-in-out;
-            transition: transform 0.2s ease;
-            will-change: transform;  /* Optimize for animations */
-            min-width: 460px;
-        }
+    position: relative;
+    padding: 5px 15px 10px 15px;
+    background-color: #e0e0e0;
+    outline: 1px solid #fff;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    transition: all .08s ease-in-out;
+    isolation: isolate;
+    will-change: transform;
+    width: 100%;
+    box-sizing: border-box;
+    min-width: 450px;
+    margin: .5px;
+}
 
-        /* Base collapsed state */
-            .input-group.collapsed * {
-                display: none;
-            }
+.input-group.dragging {
+    position: fixed;
+    box-sizing: border-box;
+    pointer-events: none;
+    margin: 0;
+    z-index: 1000;
+    background-color: #f1f3f4;
+    opacity: 0.8;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    transform: translate3d(0, 0, 0);
+}
 
-            /* Elements to keep visible */
-            .input-group.collapsed >  label,
-            .input-group.collapsed >  svg,
-            .input-group.collapsed > .collapse-arrow {
-                display: block;
-            }
+/* Base collapsed state */
+.input-group.collapsed {
+    height: auto;
+    padding: 5px 15px;
+    cursor: pointer;
+    background-color: #e0e0e0;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    flex-direction: row;
+}
 
-            /* Ensure proper positioning for visible elements */
-            .input-group.collapsed {
-                height: auto;
-                min-height: 40px;
-                padding: 5px 15px;
-            }
 
-            /* Keep SVG icons visible and properly positioned */
-            .input-group.collapsed svg {
-                display: block;
-            }
+.collapse-arrow svg {
+    color: #ccc;
+    stroke-width: 2px;
+    stroke: currentColor;
+    fill: none;
+    width: 16px;
+    height: 16px;
+    stroke-linecap: butt;      /* Change from square to butt */
+    stroke-linejoin: miter;    /* Add this line */
+    transition: transform .1s ease-in-out;
+}
 
-        .collapse-arrow {
-            position: absolute;
-            right: 40px;
-            top: 10px;
-            cursor: pointer;
-            transition: transform 0.3s ease;
-            z-index: 2;  /* Ensure it stays above other elements */
-        }
 
-        .collapse-arrow.collapsed {
-            transform: rotate(-90deg);
-        }
+/* Hide all direct children by default */
+.input-group.collapsed > * {
+    display: none !important;
+}
+
+/* Show only specific elements */
+.input-group.collapsed > label,
+.input-group.collapsed > .toggle-container,
+.input-group.collapsed > .collapse-arrow,
+.input-group.collapsed > .grabbable-svg,
+.input-group.collapsed > .padlock-svg {
+    display: inline-flex !important;
+    pointer-events: auto;
+}
+
+/* Position the arrow correctly */
+.input-group.collapsed .collapse-arrow svg{
+    position: static;
+    transform: rotate(90deg);
+    order: -1;
+    margin-right: 10px;
+    color: #0070A9;
+}
+
+/* Label styling in collapsed state */
+.input-group.collapsed label {
+    margin-left: auto;
+    pointer-events: auto;
+    flex: 1;
+}
+
+/* Keep toggle container visible and properly positioned */
+.input-group.collapsed .toggle-container {
+    position: static;
+    margin-right: 20px;
+    order: 3;
+
+}
+
+/* Keep grabbable svg visible */
+.input-group.collapsed .grabbable-svg   {
+    position: static;
+    order: 4;
+    margin: -15px -8px -15px 0px;
+
+}
+
+.input-group.collapsed .padlock-svg {
+    position: static;
+    order: 4;
+    margin: -15px 2px -15px 0px;
+}
+
+.input-group.collapsed .padlock-svg:only-of-type {
+    order: 4;
+    margin-left: 25px;
+    /* margin-right: 45px; */
+}
+
+
 
         .collapse-all-button {
-            background: #00E15A;
-            color: rgb(0, 0, 0);
+            background: #FFE057;
+            color: #033859;
             border: none;
-            padding: 8px 15px;
-            border-radius: 8px;
+            padding: 6px 10px;
+            border-radius: 6px;
             cursor: pointer;
             font-family: 'roboto';
             font-weight: bolder;
             font-size: 12px;
-            margin-bottom: 20px;
+            margin: 10px 0px 10px 0px;
+            display: flex;
+            justify-content:right;
+        }
+
+        .collapse-all-button:hover {
+            background: #EBC311;
+            color: #033859;
         }
 
         .input-group:hover {
             background-color: #f1f3f4;
-            //border: 1px dashed #788896;
+        }
+
+        .input-group.collapsed:hover {
+            background-color: #f1f3f4;
         }
 
         .input-group-subandpre {
-            //background-color: #f1f3f4;
-            
-        }
-
-        .input-group-subandpre:hover {
-            //border: 1px dashed #788896;
+            /* margin-bottom: 1px; */
         }
 
         .input-group label {
-            font-weight: 600;
+            font-weight: 500;
             color: #000;
             font-size: 14px;
             font-family: 'roboto','proxima-nova';
             margin: 5px 0px 5px 0px;
+            text-transform: uppercase;
         }
 
 
-        
+        input:focus,
+textarea:focus {
+    outline: none;
+}
 
         .input-group input,
         .input-group textarea {
             border: none;
-            border-radius: 8px;
+            border-radius: 4px;
             font-size: 14px;
             line-height: 1.5;
             font-family: 'proxima-nova', Arial, Helvetica, sans-serif;
@@ -253,26 +310,18 @@ you need to remove position:absolute from 'close' class to fix X's on pop up men
             transition: border-color 0.3s, box-shadow 0.3s;
             width: 100%;
             box-sizing: border-box;
-            padding: 10px;
+            padding: 5px;
+            padding-right: 25px;
         }
 
 
-        .input-group {
-            display: flex;
-            flex-direction: column;
-        }
 
 
 
         .input-group input:focus,
         .input-group textarea:focus {
-            box-shadow: 0 0 0 2px rgba(0, 112, 169, 0.1);
-            outline: none;
-            border-color: #0070A9;
-            border: 2px solid #00A7E1;
-            outline: none;
-            filter: brightness(1);
-            background-color: #fff;
+            /* box-shadow: 0 0 0 2px rgba(0, 112, 169, 0.1); */
+            outline: 2px solid #0070A9;
         }
 
         .input-group textarea {
@@ -284,10 +333,9 @@ you need to remove position:absolute from 'close' class to fix X's on pop up men
             background-color: #f0f0f0;
             box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
             cursor: grabbing;
-            /* Remove any margins while dragging */
-            margin: 0;
-            /* Improve performance */
-            transform: translate3d(0, 0, 0);
+            will-change: transform;
+    transform: translate3d(0, 0, 0);
+    transition: none;  /* Remove transition during drag */
         }
 
         .input-group:not(.dragging) {
@@ -326,7 +374,6 @@ input[type="file"] {
 .input-content-wrapper {
     display: flex;
     flex-direction: column;
-    gap: 10px;
     width: 100%;
 }
 
@@ -347,21 +394,10 @@ input[type="file"] {
 /* Remove the previous individual button styles and use a single class */
 .image_upload,
 .image_uploadGen {
-    width: auto;
-    min-width: 120px;
-    border-radius: 8px;
-    border: 2px solid rgba(0, 112, 169, .5);
+    border: 1px solid #0070A9;
     background-color: #ffffff;
-    display: flex;
-    justify-content: center;
-    align-items: center;
     color: #0070A9 !important;
-    font-family: 'roboto', 'proxima-nova', Arial, Helvetica, sans-serif;
-    padding: 8px 15px;
-    cursor: pointer;
-    font-size: 12px;
     font-weight: bolder;
-    margin: 0; /* Add this to override any margin */
 }
 
 .icon-button-image {
@@ -376,30 +412,32 @@ input[type="file"] {
     margin-right: 3px;
 }
 
-        .drag-placeholder {
-            background-color: #f9f9f9;
-            border: 2px dashed #ccc;
-            border-radius: 8px;  /* Match input-group */
-            margin: 0 0 15px 0;  /* Match input-group margin */
-            transition: all 0.2s ease;
-            pointer-events: none;  /* Prevent interference with dragging */
-        }
+.drag-placeholder {
+    background-color: #f9f9f9;
+    outline: 1px dashed #ccc;
+    /* border-radius: 8px;  */
+    margin: 5px 5px;  /* Your reduced margin */
+    transition: all 0.2s ease;
+    pointer-events: none;
+    align-self: center;  /* Centers the placeholder */
+    width: 99%;  /* Your reduced width */
+}
 
         .char-count {
             /*~~~~~~~~~~~~~~~~~display none to hide to show character count~~~~~~~~~~~~~~~~~*/
             border-radius: 0px 4px 0px 6px;;
-            line-height: 14px;
             font-weight: bolder;
             font-family: 'proxima-nova', Arial, Helvetica, sans-serif;
-            font-size: 11px;
+            font-size: 10px;
             right: 0px;
             display: flex;
             position: absolute;
-            padding: 3px 2px 2px 3px;
-            box-sizing: border-box;
+            padding: 2px 5px 2px 5px;
             justify-content: space-around;
-            background-color: #f1f3f4;
+            background-color: #e0e0e0;
             color: #000;
+            outline: 2px solid #fff;
+            outline-offset: -2px;
             /* border-left: 4px solid #e0e0e0;
             border-bottom: 4px solid #e0e0e0; */
             box-sizing: border-box;
@@ -408,16 +446,9 @@ input[type="file"] {
         .grabbable-svg {
             position: absolute;
             bottom: 0px;
-            /* Adjust based on your design */
             right: 8px;
-            /* Adjust based on your design */
-            width: 40px;
-            /* Adjust size as needed */
-            height: 40px;
-            /* Adjust size as needed */
             cursor: grab;
             color: #ccc;
-            transition: all 0.3s;
         }
 
         .grabbable-svg:active {
@@ -431,20 +462,35 @@ input[type="file"] {
 
 
         #all-inputs-container {
-            display: flex;
-            flex-direction: column;
-            order: revert;
-            
-        }
+    display: flex;
+    flex-direction: column;
+    order: revert;
+    position: relative;
+    z-index: 1;
+}
 
-        #draggable-container {
-            flex-grow: 1;
-            overflow-y: visible;
-            overflow-x: hidden;
-            position: relative;
-            width: 100%;
+        /* Add a new wrapper div for the clip-path effect */
+        .inputs-clip-wrapper {
+    position: relative;
+    border-radius: 10px;
+    overflow: hidden;  /* This is crucial */
+}
 
-        }
+.inputs-clip-wrapper::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-color: white;
+    border-radius: 10px;
+    pointer-events: none;
+}
+
+#draggable-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
 
 
 
@@ -462,10 +508,10 @@ input[type="file"] {
             //background-color: #f1f3f4;
             margin: 0px 0px 20px 00px;
             transition: background-color 1.5s ease-OUT, border 1.5s ease-OUT;
-            min-width: 540px;
+            width: 540px;
             //border: 1px dashed #788896;
             //padding-right: 20px;
-            min-width: 540px;
+            width: 540px;
             height: 100vh;
             transform: translateX(0px);
             transition: transform .3s ease-in-out, border-color 3s ease-out;
@@ -494,7 +540,7 @@ input[type="file"] {
         }
 
         #template-preview.pane.collapsed:nth-child(1) {
-            transform: translateX(-50%);
+            transform: translateX(-25%);
             transition: transform .3s ease-in-out;
             overflow: visible;
             
@@ -702,7 +748,7 @@ input[type="file"] {
         }
 
         ::-webkit-scrollbar-track {
-            background: transparent;
+            /* background: #e0e0e0; */
         }
 
         /* Handle */
@@ -759,10 +805,14 @@ input[type="file"] {
         .button-container {
             margin-top: 5px;
             margin-bottom: 0px;
+            display: flex;
         }
 
         .ai-suggest,
-        .restore-original {
+        .restore-original,
+        .keep-suggestion,
+        .image_upload,
+        .image_uploadGen {
             display: flex;
             justify-content: center;
             align-items: center;
@@ -770,8 +820,8 @@ input[type="file"] {
             font-family: 'roboto';
             margin-top: 5px;
             margin-right: 5px;
-            padding: 8px;
-            border-radius: 8px;
+            padding: 6px 8px;
+            border-radius: 6px;
             cursor: pointer;
             font-size: 12px;
             font-weight: 500;
@@ -801,7 +851,8 @@ input[type="file"] {
         }
 
         .restore-original {
-            border: .5px solid #d010101e;
+            border: none;
+            outline: .5px solid #d010101e;
             color: #D01010;
         }
 
@@ -813,24 +864,22 @@ input[type="file"] {
 
         }
 
-        .ai-suggest:active,
-        .restore-original:active {
-            transform: scale(0.90);
-        }
 
         .keep-suggestion {
             position: relative;
             font-family: 'roboto';
             margin-right: 10px;
-            padding: 5px;
+            padding: 6px 8px;
             border-radius: 5px;
             cursor: pointer;
             font-size: 11px;
             font-weight: 500;
             transition: all 0.2s ease-in-out 0s;
             background-color: #E8FFF1;
-            border: .05px solid #00e15a4a;
+            outline: .5px solid #00e15a4a;
+            border: none;
             color: #025C3E;
+            font-size: 12px;
         }
 
         .keep-suggestion:hover {
@@ -1148,7 +1197,7 @@ input[type="file"] {
 
 
         .icon-button:hover {
-            background: #f0f0f0;
+            /* background: #f0f0f0; */
 
         }
 
@@ -1576,6 +1625,7 @@ input[type="file"] {
                     </div>
                 
                     <button id="toggleAll" class="collapse-all-button">Collapse All</button>
+            <div class="inputs-clip-wrapper">
                 <div id="all-inputs-container">
                     <!-- Input fields -->
 
@@ -1809,6 +1859,7 @@ Only traditional (individual) policies that are in active status may enroll in A
                     </div>
 
                 </div>
+            </div>
             </div>
    
 
@@ -2139,7 +2190,8 @@ document.getElementById('change_ratio').addEventListener('click', () => {
                                 width: 15px;
                                 height: 15px;
                                 color: #ccc;
-                                transition: all 0.3s;
+                               
+                                
                             }
                         `;
                         document.head.appendChild(style);
@@ -2149,8 +2201,8 @@ document.getElementById('change_ratio').addEventListener('click', () => {
         "http://www.w3.org/2000/svg",
         "svg"
     );
-    svg.setAttribute("width", "16");
-    svg.setAttribute("height", "16");
+    svg.setAttribute("width", "50");
+    svg.setAttribute("height", "50");
     svg.setAttribute("fill", "currentColor");
     svg.setAttribute(
         "class",
@@ -2159,7 +2211,7 @@ document.getElementById('change_ratio').addEventListener('click', () => {
     svg.setAttribute("viewBox", "0 0 16 16");
     svg.setAttribute("id", "grabbable-svg");
     svg.innerHTML = `
-        <path d="M2 8a1 1 0 1 1 0 2 1 1 0 0 1 0-2m0-3a1 1 0 1 1 0 2 1 1 0 0 1 0-2m3 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2m0-3a1 1 0 1 1 0 2 1 1 0 0 1 0-2m3 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2m0-3a1 1 0 1 1 0 2 1 1 0 0 1 0-2m3 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2m0-3a1 1 0 1 1 0 2 1 1 0 0 1 0-2m3 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
+        <path d="M2 8a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm0-3a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm3 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm0-3a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm3 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm0-3a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm3 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm0-3a1 1 0 1 1 0 2 1 1 0 0 1 0-2zm3 3a1 1 0 1 1 0 2 1 1 0 0 1 0-2zzm0-3a1 1 0 1 1 0 2 1 1 0 0 1 0-2"/>
     `;
     return svg;
 }
@@ -2188,7 +2240,7 @@ document.getElementById('change_ratio').addEventListener('click', () => {
                         header1: 200,
                         salutation: 50,
                         bodycontent1: 1000,
-                        button1: 50,
+                        button1: 1000,
                         bodycontent2: 1000,
                         signature: 200,
                         auto_generated: 200,
@@ -2706,8 +2758,8 @@ document.getElementById('generate_image').addEventListener('click', async () => 
             const suggestButton = document.createElement("button");
 // Create the SVG element and set its content
 const svgElement = document.createElementNS("http://www.w3.org/2000/svg", "svg");
-svgElement.setAttribute("width", "12");
-svgElement.setAttribute("height", "12");
+svgElement.setAttribute("width", "10");
+svgElement.setAttribute("height", "10");
 svgElement.setAttribute("fill", "currentColor");
 svgElement.setAttribute("class", "bi bi-magic");
 svgElement.setAttribute("viewBox", "0 0 16 16");
@@ -3487,6 +3539,14 @@ let dragStartY = 0;
 if (!draggableContainer) {
     console.error("Draggable container not found!");
 } else {
+    // Add context menu prevention for grabbable SVGs
+    draggableContainer.querySelectorAll('.grabbable-svg').forEach(svg => {
+        svg.addEventListener('contextmenu', function(e) {
+            e.preventDefault();
+            return false;
+        });
+    });
+
     draggableContainer.addEventListener('mousedown', function (e) {
         console.log('Mouse down on:', e.target);
 
@@ -3512,10 +3572,12 @@ if (!draggableContainer) {
     });
 
     function initiateDrag(inputGroup, clientY) {
-    draggingElem = inputGroup;
-    initialPosition = Array.from(draggableContainer.children).indexOf(draggingElem);
-
     const rect = inputGroup.getBoundingClientRect();
+    
+    draggingElem = inputGroup;
+    draggingElem.dataset.originalStyles = draggingElem.style.cssText;
+    
+    initialPosition = Array.from(draggableContainer.children).indexOf(draggingElem);
     dragStartY = clientY - rect.top;
 
     placeholder = document.createElement('div');
@@ -3523,16 +3585,10 @@ if (!draggableContainer) {
     placeholder.style.height = `${rect.height}px`;
     draggingElem.parentNode.insertBefore(placeholder, draggingElem.nextSibling);
 
-    draggingElem.dataset.originalStyles = draggingElem.style.cssText;
+    draggingElem.style.position = 'fixed';
+    draggingElem.style.top = `${rect.top}px`;
+    draggingElem.style.width = `${rect.width}px`;
     draggingElem.classList.add('dragging');
-
-    Object.assign(draggingElem.style, {
-        position: 'fixed',
-        zIndex: '1000',
-        width: `${rect.width}px`,
-        top: `${clientY - dragStartY}px`,
-        boxSizing: 'border-box'
-    });
 
     document.addEventListener('mousemove', onMouseMove);
     document.addEventListener('mouseup', onMouseUp);
@@ -3541,14 +3597,19 @@ if (!draggableContainer) {
 
 function onMouseMove(e) {
     if (!draggingElem) return;
-    draggingElem.style.top = `${e.clientY - dragStartY}px`;
     
-    const afterElement = getDragAfterElement(draggableContainer, e.clientY);
-    if (afterElement == null) {
-        draggableContainer.appendChild(placeholder);
-    } else {
-        draggableContainer.insertBefore(placeholder, afterElement);
-    }
+    requestAnimationFrame(() => {
+        const y = e.clientY;
+        draggingElem.style.top = `${y - dragStartY}px`;
+        
+        const afterElement = getDragAfterElement(draggableContainer, y);
+        
+        if (afterElement == null) {
+            draggableContainer.appendChild(placeholder);
+        } else {
+            draggableContainer.insertBefore(placeholder, afterElement);
+        }
+    });
 }
 
 function onMouseUp() {
@@ -3907,15 +3968,40 @@ function updateTime() {
             document.addEventListener('DOMContentLoaded', function() {
     // Add click handlers to all collapse arrows
     document.querySelectorAll('.collapse-arrow').forEach(arrow => {
-        arrow.addEventListener('click', function() {
+        arrow.addEventListener('click', function(e) {
+            e.stopPropagation(); // Prevent event bubbling
             const inputGroup = this.closest('.input-group');
             toggleSection(inputGroup);
         });
     });
 
+    document.querySelectorAll('.input-group').forEach(group => {
+    group.classList.add('collapsed');
+    group.querySelector('.collapse-arrow')?.classList.add('collapsed');
+});
+
+
+
+    // Add click handlers to collapsed input groups
+    document.querySelectorAll('.input-group').forEach(group => {
+    group.addEventListener('click', function(e) {
+        // Don't expand if clicking the toggle container
+        if (e.target.closest('.toggle-container')) {
+            e.stopPropagation();
+            return;
+        }
+        
+        if (this.classList.contains('collapsed')) {
+            toggleSection(this);
+            }
+        });
+    });
+
     // Add click handler for toggle all button
-    const toggleAllButton = document.getElementById('toggleAll');
-    let allExpanded = true;
+    // Update toggle all button text
+const toggleAllButton = document.getElementById('toggleAll');
+toggleAllButton.textContent = 'Expand All';
+allExpanded = false;
 
     toggleAllButton.addEventListener('click', function() {
         const inputGroups = document.querySelectorAll('.input-group');
@@ -3924,10 +4010,10 @@ function updateTime() {
         inputGroups.forEach(group => {
             if (allExpanded) {
                 group.classList.remove('collapsed');
-                group.querySelector('.collapse-arrow').classList.remove('collapsed');
+                group.querySelector('.collapse-arrow')?.classList.remove('collapsed');
             } else {
                 group.classList.add('collapsed');
-                group.querySelector('.collapse-arrow').classList.add('collapsed');
+                group.querySelector('.collapse-arrow')?.classList.add('collapsed');
             }
         });
 
@@ -3936,9 +4022,11 @@ function updateTime() {
 });
 
 function toggleSection(inputGroup) {
+    if (!inputGroup) return;
+    
     const arrow = inputGroup.querySelector('.collapse-arrow');
     inputGroup.classList.toggle('collapsed');
-    arrow.classList.toggle('collapsed');
+    arrow?.classList.toggle('collapsed');
 }
             </script>
 
