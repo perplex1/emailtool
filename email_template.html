@@ -38,50 +38,78 @@ you need to remove position:absolute from 'close' class to fix X's on pop up men
             margin: 0px;
             padding: 0px;
             /* background: #cccccca1; */
-            background: #ffffff;
+            background: #f1f3f4;
             -webkit-font-smoothing: antialiased;
             -moz-osx-font-smoothing: grayscale;
-            /* background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-0 -0 10 10'%3E%3Cpath d='M 0 1 L 10 1 M 1 0 L 1 10' stroke='%23404040' stroke-dasharray='1' stroke-width='0.1' /%3E%3C/svg%3E"); */
-            /* background-size: 10px 10px; */
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='-0 -0 10 10'%3E%3Cpath d='M 0 1 L 10 1 M 1 0 L 1 10' stroke='%23404040' stroke-dasharray='1' stroke-width='0.1' /%3E%3C/svg%3E");
+            background-size: 10px 10px;
             transition: background .8s ease-in-out;
+            min-width: 1200px; /* Match container min-width */
         }
 
         /* collapsed body */
         .backgroundbody{
             background: #f1f3f4 !important;
             background-image: none !important;
-            //overflow: scroll;
         }
 
         /* Layout styles */
         .container {
-            position: relative;
-            max-width: 1200px;
-            margin-left: auto;
-            margin-right: auto;
-            display: grid;
-            grid-template-columns: .75fr 1fr auto;
-            gap: 20px;
-            transition:min-width 1s 1s ease-out;
-            /* background-color: transparent; */
-            width: 100%;
-            height: 100vh;
-        }
+    position: relative;
+    /* max-width: 1200px; */
+    min-width: 1200px; /* Add this to prevent shrinking below minimum width */
+    margin-left: auto;
+    margin-right: auto;
+    display: grid;
+    grid-template-columns: 1fr 2fr auto;
+    gap: 20px;
+    transition: min-width 1s 1s ease-out;
+    /* width: 100%; */
+    height: 100vh;
+    overflow-x: auto;
+    justify-items: center;
+}
+
+.container::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: calc(100% / 4); /* This targets the 1fr column (1/(1+2) = 1/3 of the space) */
+    height: 100%;
+    background-color: white; 
+    z-index: -1;
+    transition: transform .3s ease-in-out;  
+
+
+}
+
+.container::after {
+    /* content: ''; */
+    position: absolute;
+    left: calc(100% / 4); /* Start where the first column ends */
+    top: 0;
+    width: calc(100% / 2); /* This targets the 2fr column (2/(1+2) = 2/3 of the space) */
+    height: 100%;
+    background-color: #f1f3f4; /* Your desired background color for the second column */
+    z-index: -1;
+}
 
 
 
 
         .pane {
-            padding: 20px 0px 0px 20px;
+            padding: 20px 20px 0px 0px;
             align-items: center;
             border-radius: 8px;
             transition: all .3s ease-in-out;
+            
         }
 
 
         .pane2 {
             align-items: center;
-            border-radius: 8px;
+            /* border-radius: 8px; */
             background-color: #f1f3f4;
             transition: border .3s ease-in-out;
             margin-bottom: 30px;
@@ -92,18 +120,20 @@ you need to remove position:absolute from 'close' class to fix X's on pop up men
         .input-pane {
     min-width: 450px;
     height: 100vh;
-    overflow-y: auto;
+    overflow-y: scroll;
     z-index: 999;
-    margin: 0px 0px 20px 0px;
-    border-radius: 10px;
+    /* margin: 0px 0px 20px 0px; */
+    /* border-radius: 10px; */
     transform: translateX(0px);
     transition: transform .3s ease-in-out;     
     opacity: 1; 
-    position: fixed;  /* Change from absolute to fixed */
+    position: sticky;  /* Change from absolute to fixed */
     top: 0;
-    //left: 0;     
+    /* //left: 0;      */
     padding: 20px 20px 20px 20px;
     background-color: white;  /* Add this to ensure content doesn't show through */
+    box-sizing: border-box;
+    border-right: 1px solid #ccc;
 }
 
 
@@ -135,18 +165,18 @@ you need to remove position:absolute from 'close' class to fix X's on pop up men
         .input-group {
     position: relative;
     padding: 5px 15px 10px 15px;
-    background-color: #e0e0e0;
-    outline: 1px solid #fff;
+    background-color: #f1f3f4;
+    /* border-bottom: 1px solid #fff; */
     display: flex;
     flex-direction: column;
     align-items: stretch;
     transition: all .08s ease-in-out;
     isolation: isolate;
     will-change: transform;
-    width: 100%;
     box-sizing: border-box;
     min-width: 450px;
-    margin: .5px;
+    margin: 2px;
+    border-radius: 8px;
 }
 
 .input-group.dragging {
@@ -164,9 +194,9 @@ you need to remove position:absolute from 'close' class to fix X's on pop up men
 /* Base collapsed state */
 .input-group.collapsed {
     height: auto;
-    padding: 5px 15px;
+    padding: 15px 15px;
     cursor: pointer;
-    background-color: #e0e0e0;
+    background-color: #f1f3f4;
     position: relative;
     display: flex;
     align-items: center;
@@ -174,17 +204,22 @@ you need to remove position:absolute from 'close' class to fix X's on pop up men
     flex-direction: row;
 }
 
+.collapse-arrow{
+    cursor: pointer;
+}
 
 .collapse-arrow svg {
     color: #ccc;
     stroke-width: 2px;
     stroke: currentColor;
     fill: none;
-    width: 16px;
-    height: 16px;
+    width: 15px;
+    height: 15px;
     stroke-linecap: butt;      /* Change from square to butt */
     stroke-linejoin: miter;    /* Add this line */
     transition: transform .1s ease-in-out;
+    cursor: pointer;
+    
 }
 
 
@@ -217,6 +252,7 @@ you need to remove position:absolute from 'close' class to fix X's on pop up men
     margin-left: auto;
     pointer-events: auto;
     flex: 1;
+    margin-bottom: 0px;
 }
 
 /* Keep toggle container visible and properly positioned */
@@ -270,11 +306,12 @@ you need to remove position:absolute from 'close' class to fix X's on pop up men
         }
 
         .input-group:hover {
-            background-color: #f1f3f4;
+            background-color: #e0e0e0;
         }
 
         .input-group.collapsed:hover {
-            background-color: #f1f3f4;
+            background-color: #e0e0e0;
+            cursor: pointer;
         }
 
         .input-group-subandpre {
@@ -286,9 +323,10 @@ you need to remove position:absolute from 'close' class to fix X's on pop up men
             color: #000;
             font-size: 14px;
             font-family: 'roboto','proxima-nova';
-            margin: 5px 0px 5px 0px;
+            margin: 0px 0px 5px 0px;
             text-transform: uppercase;
         }
+
 
 
         input:focus,
@@ -426,7 +464,6 @@ input[type="file"] {
         .char-count {
             /*~~~~~~~~~~~~~~~~~display none to hide to show character count~~~~~~~~~~~~~~~~~*/
             border-radius: 0px 4px 0px 6px;;
-            font-weight: bolder;
             font-family: 'proxima-nova', Arial, Helvetica, sans-serif;
             font-size: 10px;
             right: 0px;
@@ -469,21 +506,7 @@ input[type="file"] {
     z-index: 1;
 }
 
-        /* Add a new wrapper div for the clip-path effect */
-        .inputs-clip-wrapper {
-    position: relative;
-    border-radius: 10px;
-    overflow: hidden;  /* This is crucial */
-}
 
-.inputs-clip-wrapper::before {
-    content: '';
-    position: absolute;
-    inset: 0;
-    background-color: white;
-    border-radius: 10px;
-    pointer-events: none;
-}
 
 #draggable-container {
     display: flex;
@@ -496,27 +519,25 @@ input[type="file"] {
 
         /* Preview pane styles */
         #template-preview {
-            //overflow-y: hidden;
+            /* overflow-y: hidden; */
             word-wrap: normal;
-            //border: 1px solid #788896;    
+            /* border: 1px solid #788896;     */
             z-index: 1000;
-           
         }
 
-        #template-preview.pane{
-            //padding-right: 0px;
-            //background-color: #f1f3f4;
-            margin: 0px 0px 20px 00px;
-            transition: background-color 1.5s ease-OUT, border 1.5s ease-OUT;
-            width: 540px;
-            //border: 1px dashed #788896;
-            //padding-right: 20px;
-            width: 540px;
-            height: 100vh;
-            transform: translateX(0px);
-            transition: transform .3s ease-in-out, border-color 3s ease-out;
-
-        }
+        #template-preview.pane {
+    /* margin: 0px 0px 20px 00px; */
+    transition: background-color 1.5s ease-OUT, border 1.5s ease-OUT;
+    min-width: 540px;
+    width: 540px;
+    height: 100vh;
+    transform: translateX(0px);
+    transition: transform .3s ease-in-out, border-color 3s ease-out;
+    position: sticky; /* Add this */
+    right: 0; /* Add this */
+    z-index: 1000;
+    padding: 20px 0px 0px 0px;
+}
 
         #template-preview.pane:hover{
             //padding-right: 0px;
@@ -527,20 +548,20 @@ input[type="file"] {
             background-color: transparent;
             margin-left: auto;
             margin-right: auto;
-            //border: 1px dashed #f1f3f4;
-            //border-radius: 0px;
+            /* border: 1px dashed #f1f3f4; */
+            border-radius: 0px;
             box-shadow: none;
             display: inline-block;
             overflow: visible;
             height: initial;
-            padding-right: 20px;
+            padding: 20px 20px;
             transition: transform .3s ease-in-out, border-color 3s ease-out;
 
 
         }
 
         #template-preview.pane.collapsed:nth-child(1) {
-            transform: translateX(-25%);
+            transform: translateX(-50%);
             transition: transform .3s ease-in-out;
             overflow: visible;
             
@@ -549,6 +570,7 @@ input[type="file"] {
         #template-preview.pane.collapsed:hover {
             outline: 1px dashed #788896;
             overflow: visible;
+            
         }
 
 
@@ -624,7 +646,7 @@ input[type="file"] {
         .toggle-container {
             position: absolute;
             right: 10px;
-            top: -20px;
+            top: -15px;
             z-index: 2;  /* Add this */
             transform: translateY(0);  /* Add this to force a new positioning context */
         }
@@ -738,7 +760,10 @@ input[type="file"] {
             font-family: 'roboto';
             font-weight: normal;
             margin-bottom: 20px;
-
+        }
+        .filename-display{
+            border-bottom: 1px solid #f1f3f4;
+            width: 100%;
         }
 
         /* Scrollbars */
@@ -783,18 +808,19 @@ input[type="file"] {
 
 
         .container.collapsed {
-            //background-color: #f1f3f4;
+            /* //background-color: #f1f3f4; */
             min-width: 100%;
             height: 100vh;
             transition: min-width 1s 1s ease-out;
+            grid-template-columns: 0 1fr auto;
             }
 
         .container.collapsed::before {
-            min-width: 100%;
+            transform: translateX(-1200px);
             }
 
         .container.collapsed::after {
-            min-width: 100%;
+            display: none;
         }
 
 
@@ -1553,14 +1579,13 @@ input[type="file"] {
     </div>
     <div class="container" >
 
-       <div class="scrollbox">
-        <div class="scrollbox-content">
+
         <div class="input-pane">
             <!-- Input pane -->
             <div class="pane">
                 <div class="filename-display">
                     <h3>
-                        E-mail Copywriter Tool beta v1 <span id="filename-display"></span>
+                        E-mail Mockup Tool Beta v1 <span id="filename-display"></span>
                     </h3>
                     </div>
                     <div class="icon-container">
@@ -1625,7 +1650,7 @@ input[type="file"] {
                     </div>
                 
                     <button id="toggleAll" class="collapse-all-button">Collapse All</button>
-            <div class="inputs-clip-wrapper">
+
                 <div id="all-inputs-container">
                     <!-- Input fields -->
 
@@ -1859,17 +1884,15 @@ Only traditional (individual) policies that are in active status may enroll in A
                     </div>
 
                 </div>
-            </div>
+
             </div>
    
 
         </div>
-       </div>
-       </div>
+
         <!-- Preview pane -->
 
-        <div class="scrollbox">
-        <div class="scrollbox-content">
+
         <div class="pane" id="template-preview">
             <!-- Inbox view -->
             <div class="gmail-mock">
@@ -1986,8 +2009,7 @@ Only traditional (individual) policies that are in active status may enroll in A
             </tbody>
             </table>
         </div>
-</div>
-</div>
+
         <div class="mainicons">
             <div id="hamburger-menu" class="hamburger-menu">
                 <div class="bar1"></div>
@@ -3573,6 +3595,9 @@ if (!draggableContainer) {
 
     function initiateDrag(inputGroup, clientY) {
     const rect = inputGroup.getBoundingClientRect();
+
+    const inputPane = document.querySelector('.input-pane');
+    const scrollOffset = inputPane.scrollTop;
     
     draggingElem = inputGroup;
     draggingElem.dataset.originalStyles = draggingElem.style.cssText;
@@ -3586,7 +3611,7 @@ if (!draggableContainer) {
     draggingElem.parentNode.insertBefore(placeholder, draggingElem.nextSibling);
 
     draggingElem.style.position = 'fixed';
-    draggingElem.style.top = `${rect.top}px`;
+    draggingElem.style.top = `${rect.top + scrollOffset}px`;
     draggingElem.style.width = `${rect.width}px`;
     draggingElem.classList.add('dragging');
 
@@ -3599,11 +3624,14 @@ function onMouseMove(e) {
     if (!draggingElem) return;
     
     requestAnimationFrame(() => {
-        const y = e.clientY;
-        draggingElem.style.top = `${y - dragStartY}px`;
+        const inputPane = document.querySelector('.input-pane');
+        const scrollOffset = inputPane.scrollTop;  // Recalculate the scroll offset dynamically
+
+        const y = e.clientY + scrollOffset;  // Adjust mouse position with the scroll offset
+        draggingElem.style.top = `${y - dragStartY}px`;  // Update the top position of the dragged element
         
-        const afterElement = getDragAfterElement(draggableContainer, y);
-        
+        const afterElement = getDragAfterElement(draggableContainer, y - scrollOffset);  // Pass the adjusted y for determining position
+
         if (afterElement == null) {
             draggableContainer.appendChild(placeholder);
         } else {
