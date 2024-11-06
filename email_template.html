@@ -62,7 +62,7 @@ you need to remove position:absolute from 'close' class to fix X's on pop up men
     margin-right: auto;
     display: grid;
     grid-template-columns: 1fr 1fr auto;
-    gap: 20px;
+    gap: 0px;
     transition: min-width 1s 1s ease-out;
     /* width: 100%; */
     height: 100vh;
@@ -118,16 +118,17 @@ you need to remove position:absolute from 'close' class to fix X's on pop up men
 
         .input-pane {
     min-width: 450px;
-    /* height: 90vh; */
+    height: 100vh;
     overflow-y: scroll;
     z-index: 999;
-    /* margin: 0px 0px 20px 0px; */
-    /* border-radius: 10px; */
+    margin-top: 20px;
+    margin-bottom: auto;
+    border-radius: 10px;
     transform: translateX(0px);
     transition: transform .3s ease-in-out;     
     opacity: 1; 
     position: sticky;  /* Change from absolute to fixed */
-    top: 0;
+    top: 20px;
     /* //left: 0;      */
     padding: 20px 0px 20px 20px;
     background-color: white;  /* Add this to ensure content doesn't show through */
