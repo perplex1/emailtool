@@ -65,42 +65,23 @@ you need to remove position:absolute from 'close' class to fix X's on pop up men
     gap: 0px;
     transition: min-width 1s 1s ease-out;
     /* width: 100%; */
-    height: 100vh;
-    overflow-x: auto;
+    /* overflow-y: hidden; */
+    /* overflow-x:hidden; */
     justify-items: center;
+    padding: 20px 0;
 }
 
-.container::before {
-    /* content: ''; */
-    position: fixed;
-    left: 0;
-    top: 0;
-    width: calc(100% / 4); /* This targets the 1fr column (1/(1+2) = 1/3 of the space) */
-    height: 100%;
-    background-color: white; 
-    z-index: -1;
-    transition: transform .3s ease-in-out;  
-}
 
-.container::after {
-    /* content: ''; */
-    position: absolute;
-    left: calc(100% / 4); /* Start where the first column ends */
-    top: 0;
-    width: calc(100% / 2); /* This targets the 2fr column (2/(1+2) = 2/3 of the space) */
-    height: 100%;
-    background-color: #f1f3f4; /* Your desired background color for the second column */
-    z-index: -1;
-}
 
 
 
 
         .pane {
-            padding: 20px 0px 0px 0px;
+            /* padding: 20px 0px 0px 0px; */
             align-items: center;
             border-radius: 8px;
             transition: all .3s ease-in-out;
+            /* overflow-y: auto; */
             
             
         }
@@ -111,26 +92,25 @@ you need to remove position:absolute from 'close' class to fix X's on pop up men
             /* border-radius: 8px; */
             background-color: #f1f3f4;
             transition: border .3s ease-in-out;
-            margin-bottom: 30px;
+            /* margin-bottom: 30px; */
         }
        
 
 
         .input-pane {
     min-width: 450px;
-    height: 100vh;
+    /* height: calc(100vh - 40px); */
     overflow-y: scroll;
     z-index: 999;
-    margin-top: 20px;
     margin-bottom: auto;
     border-radius: 10px;
     transform: translateX(0px);
     transition: transform .3s ease-in-out;     
     opacity: 1; 
     position: sticky;  /* Change from absolute to fixed */
-    top: 20px;
-    /* //left: 0;      */
-    padding: 20px 0px 20px 20px;
+    top: 20px;  /* Match container top padding */
+    bottom: 20px;  /* Match container bottom padding */
+    padding: 20px 00px 20px 20px;
     background-color: white;  /* Add this to ensure content doesn't show through */
     box-sizing: border-box;
     box-shadow: rgba(0, 0, 0, 0.9) 10px 0px 20px -30px, rgba(0, 0, 0, 0.9) -10px 0px 20px -30px;
@@ -535,7 +515,6 @@ input[type="file"] {
     transition: background-color 1.5s ease-OUT, border 1.5s ease-OUT;
     min-width: 540px;
     width: 540px;
-    height: 100vh;
     transform: translateX(0px);
     transition: transform .3s ease-in-out, border-color 3s ease-out;
     position: sticky; /* Add this */
