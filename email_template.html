@@ -56,19 +56,17 @@ you need to remove position:absolute from 'close' class to fix X's on pop up men
         /* Layout styles */
         .container {
     position: relative;
-    /* max-width: 1200px; */
+    /* min-width: 1200px; */
     max-width: 1200px; /* Add this to prevent shrinking below minimum width */
     margin-left: auto;
     margin-right: auto;
     display: grid;
-    grid-template-columns: 1fr 1fr auto;
-    gap: 0px;
+    grid-template-columns: 1fr 1fr;
     transition: min-width 1s 1s ease-out;
     /* width: 100%; */
     /* overflow-y: hidden; */
     /* overflow-x:hidden; */
     justify-items: center;
-    padding: 20px 0;
 }
 
 
@@ -114,6 +112,7 @@ you need to remove position:absolute from 'close' class to fix X's on pop up men
     background-color: white;  /* Add this to ensure content doesn't show through */
     box-sizing: border-box;
     box-shadow: rgba(0, 0, 0, 0.9) 10px 0px 20px -30px, rgba(0, 0, 0, 0.9) -10px 0px 20px -30px;
+    max-height: 95vh;
 }
 
 
@@ -142,22 +141,52 @@ you need to remove position:absolute from 'close' class to fix X's on pop up men
     margin-bottom: 10px;
 }
 
-        .input-group {
+.input-group {
     position: relative;
     padding: 5px 15px 10px 15px;
     background-color: #f1f3f4;
-    /* border-bottom: 1px solid #fff; */
     display: flex;
-    flex-direction: column;
-    /* align-items: stretch; */
+    flex-direction: row;
     transition: all .08s ease-in-out;
     isolation: isolate;
     will-change: transform;
     box-sizing: border-box;
-    min-width: 450px;
+    width: 420px; /* Set fixed width */
     margin: 2px;
     border-radius: 8px;
+    flex-wrap: wrap;
+    align-items: center;
 }
+
+/* Create a header row */
+.input-group > .collapse-arrow,
+.input-group > label,
+.input-group > .toggle-container {
+    flex: 0 1 auto;
+    width: auto;
+    margin-bottom: 10px;
+}
+
+/* Make label take remaining space */
+.input-group > label {
+    flex: 1;
+}
+
+/* Force new row for other elements */
+.input-group > *:not(.collapse-arrow):not(label):not(.toggle-container):not(.grabbable-svg):not(.padlock-svg) {
+    flex-basis: 100%;
+    width: 100%;
+    order: 2;
+}
+
+/* Keep grabbable svg on first row */
+.input-group > .grabbable-svg,
+.input-group > .padlock-svg {
+    flex: 0 0 auto;
+    width: auto;
+    order: 1;
+}
+
 
 .input-group.dragging {
     position: fixed;
@@ -173,7 +202,6 @@ you need to remove position:absolute from 'close' class to fix X's on pop up men
 
 /* Base collapsed state */
 .input-group.collapsed {
-    height: auto;
     padding: 15px 15px;
     cursor: pointer;
     background-color: #f1f3f4;
@@ -182,11 +210,12 @@ you need to remove position:absolute from 'close' class to fix X's on pop up men
     align-items: center;
     justify-content: flex-start;
     flex-direction: row;
+    width: 420px; /* Match the non-collapsed width */
 }
 
 .collapse-arrow{
     cursor: pointer;
-    /* margin-right: auto; */
+
 }
 
 .collapse-arrow svg {
@@ -200,6 +229,7 @@ you need to remove position:absolute from 'close' class to fix X's on pop up men
     stroke-linejoin: miter;    /* Add this line */
     transition: transform .1s ease-in-out;
     cursor: pointer;
+    margin-right: 10px;
     
 }
 
@@ -217,6 +247,7 @@ you need to remove position:absolute from 'close' class to fix X's on pop up men
 .input-group.collapsed > .padlock-svg {
     display: inline-flex !important;
     pointer-events: auto;
+    margin-bottom: 0px;
 }
 
 /* Position the arrow correctly */
@@ -306,7 +337,6 @@ you need to remove position:absolute from 'close' class to fix X's on pop up men
             color: #000;
             font-size: 14px;
             font-family: 'roboto','proxima-nova';
-            margin: 0px 0px 5px 0px;
             text-transform: uppercase;
             cursor: pointer;
             flex-wrap: wrap;
@@ -393,12 +423,6 @@ input[type="file"] {
     display: none;
 }
 
-
-.input-content-wrapper {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-}
 
 .image-controls-container {
     display: flex;
@@ -496,7 +520,7 @@ input[type="file"] {
 #draggable-container {
     display: flex;
     flex-direction: column;
-    align-items: center;
+    align-items: stretch;
     width: 100%;
 }
 
@@ -517,8 +541,7 @@ input[type="file"] {
     width: 540px;
     transform: translateX(0px);
     transition: transform .3s ease-in-out, border-color 3s ease-out;
-    position: sticky; /* Add this */
-    right: 0; /* Add this */
+
     z-index: 1000;
     padding: 20px 0px 0px 0px;
 }
@@ -628,12 +651,12 @@ input[type="file"] {
 
 
         .toggle-container {
-            /* position: absolute;
-            right: 10px;
-            top: -15px; */
-            z-index: 2;  /* Add this */
-            transform: translateY(0);  /* Add this to force a new positioning context */
-        }
+    z-index: 2;
+    display: flex;
+    align-items: center;
+    height: fit-content;
+    margin-top: auto 0px;
+}
 
         .toggle-container input[type=checkbox] {
             height: 0;
@@ -1670,6 +1693,7 @@ input[type="file"] {
 
                     <div id="draggable-container">
                         <div class="input-group" draggable="true" data-input-id="image_upload">
+
                             <div class="collapse-arrow">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" viewBox="0 0 16 16">
                                     <path d="M7.646 4.646a.5.5 0 0 1 .708 0l6 6a.5.5 0 0 1-.708.708L8 5.707l-5.646 5.647a.5.5 0 0 1-.708-.708l6-6z"/>
@@ -1682,9 +1706,9 @@ input[type="file"] {
                                 <input type="checkbox" id="toggle_image_upload" checked />
                                 <label for="toggle_image_upload"></label>
                             </div>
+
+
                             
-                            <!-- Add this wrapper div -->
-                            <div class="input-content-wrapper">
                                 <!-- AI buttons will go here via JavaScript -->
                                 <div class="button-container"></div>
                                 
@@ -1709,7 +1733,7 @@ input[type="file"] {
                                         <input type="file" id="image_upload" accept="image/*" style="display: none;" />
                                     </div>
                                 </div>
-                            </div>
+                            
                         </div>
                             <div id="image_preview" style="max-width: 100%; max-height: 200px; overflow: hidden;"></div>
                             <div id="image_controls" style="display: none;">
