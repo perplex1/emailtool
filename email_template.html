@@ -111,7 +111,8 @@ you need to remove position:absolute from 'close' class to fix X's on pop up men
     padding: 20px 00px 20px 20px;
     background-color: white;  /* Add this to ensure content doesn't show through */
     box-sizing: border-box;
-    box-shadow: rgba(0, 0, 0, 0.9) 10px 0px 20px -30px, rgba(0, 0, 0, 0.9) -10px 0px 20px -30px;
+    /* box-shadow: rgba(0, 0, 0, 0.8) 10px 0px 20px -30px, rgba(0, 0, 0, 0.8) -10px 0px 20px -30px; */
+    box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
     max-height: 95vh;
 }
 
@@ -153,7 +154,7 @@ you need to remove position:absolute from 'close' class to fix X's on pop up men
     box-sizing: border-box;
     width: 420px; /* Set fixed width */
     margin: 2px;
-    border-radius: 8px;
+    border-radius: 4px;
     flex-wrap: wrap;
     align-items: center;
 }
@@ -202,7 +203,7 @@ you need to remove position:absolute from 'close' class to fix X's on pop up men
 
 /* Base collapsed state */
 .input-group.collapsed {
-    padding: 15px 15px;
+    padding: 10px 10px;
     cursor: pointer;
     background-color: #f1f3f4;
     position: relative;
@@ -303,7 +304,7 @@ you need to remove position:absolute from 'close' class to fix X's on pop up men
             color: #033859;
             border: none;
             padding: 6px 10px;
-            border-radius: 6px;
+            border-radius: 4px;
             cursor: pointer;
             font-family: 'roboto';
             font-weight: bolder;
@@ -320,7 +321,15 @@ you need to remove position:absolute from 'close' class to fix X's on pop up men
 
         .input-group:hover {
             background-color: #e0e0e0;
+            /* outline: 2px solid #0070A9;
+            transition: outline 0.2s ease; */
         }
+        
+        .preview-highlight {
+            background-color: rgba(0, 112, 169, 0.1) !important;
+    outline: 2px solid #0070A9 !important;
+    transition: all 0.2s ease;
+}
 
         .input-group.collapsed:hover {
             background-color: #e0e0e0;
@@ -522,8 +531,18 @@ input[type="file"] {
     flex-direction: column;
     align-items: stretch;
     width: 100%;
+
 }
 
+
+#draggable-container::before {
+    content: ""; /* Empty content to make it a line */
+    position: relative;
+    width: 95%; /* Full width */
+    height: 2px; /* Thickness of the line */
+    background-color: #e0e0e0; /* Color of the line */
+    margin: 10px auto;
+}
 
 
         /* Preview pane styles */
@@ -854,7 +873,7 @@ input[type="file"] {
             margin-top: 5px;
             margin-right: 5px;
             padding: 6px 8px;
-            border-radius: 6px;
+            border-radius: 4px;
             cursor: pointer;
             font-size: 12px;
             font-weight: 500;
@@ -4070,6 +4089,54 @@ function toggleSection(inputGroup) {
     arrow?.classList.toggle('collapsed');
     label?.classList.toggle('collapsed');
 }
+
+document.querySelectorAll('.input-group input, .input-group textarea').forEach(input => {
+    const fieldName = input.name || input.id;
+    
+    input.addEventListener('focus', () => {
+        const previewClass = {
+            'subject_line': '.preview-subject-line',
+            'preheader': '.preheader-preview',
+            'header1': '.preview-header1',
+            'salutation': '.preview-salutation',
+            'bodycontent1': '.preview-bodycontent1',
+            'button1': '.preview-button1',
+            'bodycontent2': '.preview-bodycontent2',
+            'signature': '.signature-preview',
+            'auto_generated': '.auto-generated-preview',
+            'footer_text': '.footer-text-preview'
+        }[fieldName];
+
+        if (previewClass) {
+            const previewSection = document.querySelector(previewClass);
+            if (previewSection) {
+                previewSection.classList.add('preview-highlight');
+            }
+        }
+    });
+
+    input.addEventListener('blur', () => {
+        const previewClass = {
+            'subject_line': '.preview-subject-line',
+            'preheader': '.preheader-preview',
+            'header1': '.preview-header1',
+            'salutation': '.preview-salutation',
+            'bodycontent1': '.preview-bodycontent1',
+            'button1': '.preview-button1',
+            'bodycontent2': '.preview-bodycontent2',
+            'signature': '.signature-preview',
+            'auto_generated': '.auto-generated-preview',
+            'footer_text': '.footer-text-preview'
+        }[fieldName];
+
+        if (previewClass) {
+            const previewSection = document.querySelector(previewClass);
+            if (previewSection) {
+                previewSection.classList.remove('preview-highlight');
+            }
+        }
+    });
+});
             </script>
 
 </body>
