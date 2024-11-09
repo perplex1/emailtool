@@ -325,10 +325,14 @@ you need to remove position:absolute from 'close' class to fix X's on pop up men
             transition: outline 0.2s ease; */
         }
         
-        .preview-highlight {
-            background-color: rgba(0, 112, 169, 0.1) !important;
-    outline: 2px solid #0070A9 !important;
-    transition: all 0.2s ease;
+        .preview-highlight{
+            box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
+           /* content: ">"; */
+        border-radius: 8px;
+        /* outline: 2px dashed #0070A9; */
+    /* transition: all 0.2s ease; */
+    padding: 5px;
+    box-sizing: border-box;
 }
 
         .input-group.collapsed:hover {
@@ -4089,53 +4093,81 @@ function toggleSection(inputGroup) {
     arrow?.classList.toggle('collapsed');
     label?.classList.toggle('collapsed');
 }
-
-document.querySelectorAll('.input-group input, .input-group textarea').forEach(input => {
-    const fieldName = input.name || input.id;
+// Set up preview highlighting for input groups
+document.querySelectorAll('.input-group').forEach(group => {
+    const input = group.querySelector('input, textarea');
+    if (!input) return;
     
-    input.addEventListener('focus', () => {
-        const previewClass = {
-            'subject_line': '.preview-subject-line',
-            'preheader': '.preheader-preview',
-            'header1': '.preview-header1',
-            'salutation': '.preview-salutation',
-            'bodycontent1': '.preview-bodycontent1',
-            'button1': '.preview-button1',
-            'bodycontent2': '.preview-bodycontent2',
-            'signature': '.signature-preview',
-            'auto_generated': '.auto-generated-preview',
-            'footer_text': '.footer-text-preview'
-        }[fieldName];
+    const fieldName = group.dataset.inputId || input.name || input.id;
+    console.log('Found input group with fieldName:', fieldName); // Debug line
+    
+    // Remove existing event listeners
+    group.removeEventListener('mouseenter', group._mouseenterHandler);
+    group.removeEventListener('mouseleave', group._mouseleaveHandler);
+    
+    // Create mouseenter handler
+    group._mouseenterHandler = () => {
+        let previewId;
+        
+        // Special cases for subject line and preheader
+        if (fieldName === 'subject_line') {
+            previewId = '#preview-subject-line';
+        } else if (fieldName === 'preheader') {
+            previewId = '#preheader-preview';
+        } else {
+            previewId = {
+                'header1': '#preview-header1',
+                'salutation': '#preview-salutation',
+                'bodycontent1': '#preview-bodycontent1',
+                'button1': '#preview-button1',
+                'bodycontent2': '#preview-bodycontent2',
+                'signature': '#signature-preview',
+                'auto_generated': '#auto-generated-preview',
+                'footer_text': '#footer-text-preview'
+            }[fieldName];
+        }
 
-        if (previewClass) {
-            const previewSection = document.querySelector(previewClass);
+        // console.log('Mouseenter - Looking for:', previewId, 'for fieldName:', fieldName); // Debug line
+        if (previewId) {
+            const previewSection = document.querySelector(previewId);
             if (previewSection) {
                 previewSection.classList.add('preview-highlight');
             }
         }
-    });
+    };
+    
+    // Create mouseleave handler
+    group._mouseleaveHandler = () => {
+        let previewId;
+        
+        if (fieldName === 'subject_line') {
+            previewId = '#preview-subject-line';
+        } else if (fieldName === 'preheader') {
+            previewId = '#preheader-preview';
+        } else {
+            previewId = {
+                'header1': '#preview-header1',
+                'salutation': '#preview-salutation',
+                'bodycontent1': '#preview-bodycontent1',
+                'button1': '#preview-button1',
+                'bodycontent2': '#preview-bodycontent2',
+                'signature': '#signature-preview',
+                'auto_generated': '#auto-generated-preview',
+                'footer_text': '#footer-text-preview'
+            }[fieldName];
+        }
 
-    input.addEventListener('blur', () => {
-        const previewClass = {
-            'subject_line': '.preview-subject-line',
-            'preheader': '.preheader-preview',
-            'header1': '.preview-header1',
-            'salutation': '.preview-salutation',
-            'bodycontent1': '.preview-bodycontent1',
-            'button1': '.preview-button1',
-            'bodycontent2': '.preview-bodycontent2',
-            'signature': '.signature-preview',
-            'auto_generated': '.auto-generated-preview',
-            'footer_text': '.footer-text-preview'
-        }[fieldName];
-
-        if (previewClass) {
-            const previewSection = document.querySelector(previewClass);
+        if (previewId) {
+            const previewSection = document.querySelector(previewId);
             if (previewSection) {
                 previewSection.classList.remove('preview-highlight');
             }
         }
-    });
+    };
+    
+    // Add new event listeners
+    group.addEventListener('mouseenter', group._mouseenterHandler);
+    group.addEventListener('mouseleave', group._mouseleaveHandler);
 });
             </script>
 
