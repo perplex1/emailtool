@@ -326,14 +326,9 @@ you need to remove position:absolute from 'close' class to fix X's on pop up men
         }
         
         .preview-highlight{
-            /* box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px; */
-/*             
-        border-radius: 8px; */
-        outline: 5px dashed #EBC311; 
+        border-radius: 8px;
+        outline: 3px dashed #EBC311; 
         outline-offset: 5px;
-
-
-    /* padding: 5px; */
 }
 
         .input-group.collapsed:hover {
@@ -529,7 +524,15 @@ input[type="file"] {
     z-index: 1;
 }
 
-
+#all-inputs-container::before,
+#draggable-container::before {
+    position: relative;
+    width: 95%; /* Full width */
+    font-size: 12px;
+    font-weight: 500;
+    margin: 10px 10px 0px 5px;
+    font-family: 'roboto';
+}
 
 #draggable-container {
     display: flex;
@@ -538,15 +541,12 @@ input[type="file"] {
     width: 100%;
 
 }
-
+#all-inputs-container::before {
+            content: "Inbox"; /* Empty content to make it a line */
+}
 
 #draggable-container::before {
-    content: ""; /* Empty content to make it a line */
-    position: relative;
-    width: 95%; /* Full width */
-    height: 2px; /* Thickness of the line */
-    background-color: #e0e0e0; /* Color of the line */
-    margin: 10px auto;
+    content: "E-mail";
 }
 
 
@@ -569,11 +569,6 @@ input[type="file"] {
     z-index: 1000;
     padding: 20px 0px 0px 0px;
 }
-
-        #template-preview.pane:hover{
-            //padding-right: 0px;
-            //overflow-y: visible;
-        }
 
         #template-preview.pane.collapsed {
             background-color: transparent;
@@ -677,9 +672,8 @@ input[type="file"] {
         .toggle-container {
     z-index: 2;
     display: flex;
-    align-items: center;
-    height: fit-content;
-    margin-top: auto 0px;
+    /* height: fit-content; */
+    /* margin-top: auto 0px; */
 }
 
         .toggle-container input[type=checkbox] {
@@ -690,21 +684,21 @@ input[type="file"] {
 
         .toggle-container label {
             cursor: pointer;
-            /* text-indent: -9999px; */
+            text-indent: -9999px;
             width: 30px;
             height: 15px;
             background: #ccc;
-            display: block;
+            align-items: center;
             border-radius: 100px;
             position: relative;
         }
 
 /* Adjust the circle positioning and animation */
-.toggle-container label:after {
+.toggle-container label::after {
     content: '';
-    position: absolute;
-    top: 2.5px;
-    left: 2.5px; /* Changed from right: 0px to left: 2.5px */
+    position: relative;
+    /* top: 2.5px; */
+    left: 2.5px;
     width: 10px;
     height: 10px;
     background: #fff;
@@ -722,7 +716,8 @@ input[type="file"] {
 }
 
 .toggle-container label:active:after {
-    width: 15px; /* Reduced from 25px to maintain proportions */
+    width: 12px; /* Reduced from 25px to maintain proportions */
+    height: 12px;
 }
 
         .placeholder-toggle {
@@ -957,6 +952,8 @@ input[type="file"] {
             margin-bottom: 20px;
             box-sizing: border-box;
         }
+
+
 
         .tableinbox {
             border-spacing: 0px;
@@ -3582,7 +3579,89 @@ suggestButton.onclick = () => suggestAlternative(inputId);
                         );
                     }
 
-            
+                    document.querySelectorAll('.input-group').forEach(group => {
+    const input = group.querySelector('input, textarea');
+    if (!input) return;
+    
+    const fieldName = group.dataset.inputId || input.name || input.id;
+    
+    // Helper function to get previewId
+    const getPreviewId = () => {
+        if (fieldName === 'subject_line') {
+            return '#preview-subject-line';
+        } else if (fieldName === 'preheader') {
+            return '#preheader-preview';
+        } else {
+            return {
+                'header1': '#preview-header1',
+                'salutation': '#preview-salutation',
+                'bodycontent1': '#preview-bodycontent1',
+                'button1': '#preview-button1',
+                'bodycontent2': '#preview-bodycontent2',
+                'signature': '#signature-preview',
+                'auto_generated': '#auto-generated-preview',
+                'footer_text': '#footer-text-preview'
+            }[fieldName];
+        }
+    };
+
+// Create mouseenter handler
+group._mouseenterHandler = () => {
+    // Don't add highlight if anything is being dragged
+    if (document.querySelector('.dragging')) return;
+    
+    const previewId = getPreviewId();
+    if (previewId) {
+        const previewSection = document.querySelector(previewId);
+        const toggleElement = group.querySelector('.toggle-container input[type="checkbox"]');
+        if (previewSection && (!toggleElement || toggleElement.checked)) {
+            previewSection.classList.add('preview-highlight');
+        }
+    }
+};
+
+// Create mouseleave handler
+group._mouseleaveHandler = () => {
+    // Don't remove highlight if anything is being dragged
+    if (document.querySelector('.dragging')) return;
+    
+    const previewId = getPreviewId();
+    if (previewId) {
+        const previewSection = document.querySelector(previewId);
+        if (previewSection) {
+            previewSection.classList.remove('preview-highlight');
+        }
+    }
+};
+
+// Set up toggle element handler
+const toggleElement = group.querySelector('.toggle-container input[type="checkbox"]');
+if (toggleElement) {
+    toggleElement.addEventListener('change', () => {
+        // Store current hover state
+        const isHovering = group.matches(':hover');
+        
+        // Remove highlight first
+        group._mouseleaveHandler();
+        
+        // If checked and hovering, add highlight back
+        if (toggleElement.checked && isHovering) {
+            requestAnimationFrame(() => {
+                group._mouseenterHandler();
+            });
+        }
+    });
+}
+
+
+    // Remove any existing listeners before adding new ones
+    group.removeEventListener('mouseenter', group._mouseenterHandler);
+    group.removeEventListener('mouseleave', group._mouseleaveHandler);
+    
+    // Add event listeners
+    group.addEventListener('mouseenter', group._mouseenterHandler);
+    group.addEventListener('mouseleave', group._mouseleaveHandler);
+}); 
 
                     const draggableContainer = document.getElementById('draggable-container');
 let draggingElem = null;
@@ -3675,6 +3754,9 @@ function onMouseMove(e) {
 function onMouseUp() {
     if (!draggingElem) return;
 
+    // Store reference to dragged element
+    const draggedGroup = draggingElem;
+
     // Remove dragging class
     draggingElem.classList.remove('dragging');
     
@@ -3701,6 +3783,21 @@ function onMouseUp() {
 
     // Update preview
     updatePreview();
+
+    // Wait for next frame to ensure DOM is updated
+    requestAnimationFrame(() => {
+        // Check if mouse is still over the element
+        if (draggedGroup.matches(':hover')) {
+            // Force remove any existing highlights first
+            const previewElements = document.querySelectorAll('.preview-highlight');
+            previewElements.forEach(el => el.classList.remove('preview-highlight'));
+            
+            // Then add the highlight back
+            if (draggedGroup._mouseenterHandler) {
+                draggedGroup._mouseenterHandler();
+            }
+        }
+    });
 }
 
     function getDragAfterElement(container, y) {
@@ -4094,82 +4191,7 @@ function toggleSection(inputGroup) {
     arrow?.classList.toggle('collapsed');
     label?.classList.toggle('collapsed');
 }
-// Set up preview highlighting for input groups
-document.querySelectorAll('.input-group').forEach(group => {
-    const input = group.querySelector('input, textarea');
-    if (!input) return;
-    
-    const fieldName = group.dataset.inputId || input.name || input.id;
-    console.log('Found input group with fieldName:', fieldName); // Debug line
-    
-    // Remove existing event listeners
-    group.removeEventListener('mouseenter', group._mouseenterHandler);
-    group.removeEventListener('mouseleave', group._mouseleaveHandler);
-    
-    // Create mouseenter handler
-    group._mouseenterHandler = () => {
-        let previewId;
-        
-        // Special cases for subject line and preheader
-        if (fieldName === 'subject_line') {
-            previewId = '#preview-subject-line';
-        } else if (fieldName === 'preheader') {
-            previewId = '#preheader-preview';
-        } else {
-            previewId = {
-                'header1': '#preview-header1',
-                'salutation': '#preview-salutation',
-                'bodycontent1': '#preview-bodycontent1',
-                'button1': '#preview-button1',
-                'bodycontent2': '#preview-bodycontent2',
-                'signature': '#signature-preview',
-                'auto_generated': '#auto-generated-preview',
-                'footer_text': '#footer-text-preview'
-            }[fieldName];
-        }
 
-        // console.log('Mouseenter - Looking for:', previewId, 'for fieldName:', fieldName); // Debug line
-        if (previewId) {
-            const previewSection = document.querySelector(previewId);
-            if (previewSection) {
-                previewSection.classList.add('preview-highlight');
-            }
-        }
-    };
-    
-    // Create mouseleave handler
-    group._mouseleaveHandler = () => {
-        let previewId;
-        
-        if (fieldName === 'subject_line') {
-            previewId = '#preview-subject-line';
-        } else if (fieldName === 'preheader') {
-            previewId = '#preheader-preview';
-        } else {
-            previewId = {
-                'header1': '#preview-header1',
-                'salutation': '#preview-salutation',
-                'bodycontent1': '#preview-bodycontent1',
-                'button1': '#preview-button1',
-                'bodycontent2': '#preview-bodycontent2',
-                'signature': '#signature-preview',
-                'auto_generated': '#auto-generated-preview',
-                'footer_text': '#footer-text-preview'
-            }[fieldName];
-        }
-
-        if (previewId) {
-            const previewSection = document.querySelector(previewId);
-            if (previewSection) {
-                previewSection.classList.remove('preview-highlight');
-            }
-        }
-    };
-    
-    // Add new event listeners
-    group.addEventListener('mouseenter', group._mouseenterHandler);
-    group.addEventListener('mouseleave', group._mouseleaveHandler);
-});
             </script>
 
 </body>
