@@ -148,7 +148,7 @@ you need to remove position:absolute from 'close' class to fix X's on pop up men
     background-color: #f1f3f4;
     display: flex;
     flex-direction: row;
-    transition: all .08s ease-in-out;
+    transition: background-color .08s ease-in-out;
     isolation: isolate;
     will-change: transform;
     box-sizing: border-box;
@@ -186,6 +186,7 @@ you need to remove position:absolute from 'close' class to fix X's on pop up men
     flex: 0 0 auto;
     width: auto;
     order: 1;
+    z-index: 2; /* Ensure it's above other elements */
 }
 
 
@@ -199,6 +200,7 @@ you need to remove position:absolute from 'close' class to fix X's on pop up men
     opacity: 0.8;
     box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
     transform: translate3d(0, 0, 0);
+    transition: none;
 }
 
 /* Base collapsed state */
@@ -3706,9 +3708,8 @@ if (!draggableContainer) {
 
     function initiateDrag(inputGroup, clientY) {
     const rect = inputGroup.getBoundingClientRect();
-
     const inputPane = document.querySelector('.input-pane');
-    const scrollOffset = inputPane.scrollTop;
+    const scrollTop = inputPane.scrollTop;
     
     draggingElem = inputGroup;
     draggingElem.dataset.originalStyles = draggingElem.style.cssText;
@@ -3721,8 +3722,10 @@ if (!draggableContainer) {
     placeholder.style.height = `${rect.height}px`;
     draggingElem.parentNode.insertBefore(placeholder, draggingElem.nextSibling);
 
+    // Position the dragged element exactly at its original position
+    const absoluteTop = rect.top + scrollTop; // Account for scroll position
     draggingElem.style.position = 'fixed';
-    draggingElem.style.top = `${rect.top + scrollOffset}px`;
+    draggingElem.style.top = `${absoluteTop}px`;
     draggingElem.style.width = `${rect.width}px`;
     draggingElem.classList.add('dragging');
 
@@ -3736,13 +3739,14 @@ function onMouseMove(e) {
     
     requestAnimationFrame(() => {
         const inputPane = document.querySelector('.input-pane');
-        const scrollOffset = inputPane.scrollTop;  // Recalculate the scroll offset dynamically
-
-        const y = e.clientY + scrollOffset;  // Adjust mouse position with the scroll offset
-        draggingElem.style.top = `${y - dragStartY}px`;  // Update the top position of the dragged element
+        const scrollTop = inputPane.scrollTop;
         
-        const afterElement = getDragAfterElement(draggableContainer, y - scrollOffset);  // Pass the adjusted y for determining position
-
+        // Apply the same positioning logic as initiateDrag
+        const absoluteY = e.clientY - dragStartY + scrollTop;
+        draggingElem.style.top = `${absoluteY}px`;
+        
+        const afterElement = getDragAfterElement(draggableContainer, e.clientY);
+        
         if (afterElement == null) {
             draggableContainer.appendChild(placeholder);
         } else {
