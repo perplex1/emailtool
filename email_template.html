@@ -326,13 +326,14 @@ you need to remove position:absolute from 'close' class to fix X's on pop up men
         }
         
         .preview-highlight{
-            box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px;
-           /* content: ">"; */
-        border-radius: 8px;
-        /* outline: 2px dashed #0070A9; */
-    /* transition: all 0.2s ease; */
-    padding: 5px;
-    box-sizing: border-box;
+            /* box-shadow: rgba(0, 0, 0, 0.56) 0px 22px 70px 4px; */
+/*             
+        border-radius: 8px; */
+        outline: 5px dashed #EBC311; 
+        outline-offset: 5px;
+
+
+    /* padding: 5px; */
 }
 
         .input-group.collapsed:hover {
@@ -960,13 +961,13 @@ input[type="file"] {
         .tableinbox {
             border-spacing: 0px;
             border-collapse: separate;
-            overflow: hidden;
+            /* overflow: hidden; */
             width: 100%;
             padding-bottom: 10px;
             background-color: #fff;
             border-radius: 6px;
             border: 1px dashed #788896;
-            //min-width: 540px;
+            /* min-width: 540px; */
             margin-bottom: 20px;
            
 
@@ -975,7 +976,7 @@ input[type="file"] {
         .tableinbox2 {
             border-spacing: 0px;
             border-collapse: separate;
-            overflow: hidden;
+            /* overflow: hidden; */
             width: 100%;
             background-color: #fff;
             border-radius: 6px;
@@ -986,7 +987,7 @@ input[type="file"] {
         }
 
         .tableinbox th {
-            overflow: hidden;
+            /* overflow: hidden; */
             text-overflow: ellipsis;
         }
 
@@ -1012,7 +1013,7 @@ input[type="file"] {
             right: 0;
             top: 0;
             bottom: 0;
-            overflow: hidden;
+            /* overflow: hidden; */
         }
 
         .sender,
@@ -1073,7 +1074,7 @@ input[type="file"] {
             display: block;
             width: 100%;
             white-space: nowrap;
-            overflow: hidden;
+            /* overflow: hidden; */
             text-overflow: ellipsis;
         }
 
@@ -2999,12 +3000,12 @@ suggestButton.onclick = () => suggestAlternative(inputId);
             case "signature":
                 previewElement = document.createElement("p");
                 previewElement.id = "signature-preview";
-                previewElement.style.cssText = "display: block; font-size: 16px; line-height: 28px; color: #555555; text-align: left; padding: 00px 30px 0px; margin: 0;";
+                previewElement.style.cssText = "display: block; font-size: 16px; line-height: 28px; color: #555555; text-align: left; padding: 0px 0; margin: 20px 30px 20px 30px";
                 break;
             case "auto_generated":
                 previewElement = document.createElement("p");
                 previewElement.id = "auto-generated-preview";
-                previewElement.style.cssText = "font-size: 14px; line-height: 24px; color: rgb(85, 85, 85); display: block; padding: 30px 30px 20px 30px";
+                previewElement.style.cssText = "font-size: 14px; line-height: 24px; color: rgb(85, 85, 85); display: block; padding: 0px 0; margin: 20px 30px 20px 30px";
                 break;
             default:
                 previewElement = document.createElement("p");
