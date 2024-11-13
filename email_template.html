@@ -328,10 +328,16 @@ you need to remove position:absolute from 'close' class to fix X's on pop up men
         }
         
         .preview-highlight{
+
+        /* outline: 1px dotted #EBC311; 
+        outline-offset: 5px; */
         border-radius: 8px;
-        outline: 3px dashed #EBC311; 
-        outline-offset: 5px;
+        position:relative;
+        box-shadow: rgba(236, 236, 14, 0.2) 0px 0px 10px 10px;
+        background-color: rgba(236, 236, 14, 0.2);
+
 }
+
 
         .input-group.collapsed:hover {
             background-color: #e0e0e0;
@@ -564,7 +570,7 @@ input[type="file"] {
     /* margin: 0px 0px 20px 00px; */
     transition: background-color 1.5s ease-OUT, border 1.5s ease-OUT;
     min-width: 540px;
-    width: 540px;
+    max-width: 540px;
     transform: translateX(0px);
     transition: transform .3s ease-in-out, border-color 3s ease-out;
 
@@ -953,6 +959,8 @@ input[type="file"] {
             position: relative;
             margin-bottom: 20px;
             box-sizing: border-box;
+            padding-right: 0px;
+            margin-right: 0px;
         }
 
 
@@ -961,13 +969,14 @@ input[type="file"] {
             border-spacing: 0px;
             border-collapse: separate;
             /* overflow: hidden; */
-            width: 100%;
-            padding-bottom: 10px;
+            /* max-width: 100%; */
             background-color: #fff;
             border-radius: 6px;
             border: 1px dashed #788896;
-            /* min-width: 540px; */
+            min-width: 540px;
+            max-width: 540px;
             margin-bottom: 20px;
+            
            
 
         }
@@ -976,7 +985,6 @@ input[type="file"] {
             border-spacing: 0px;
             border-collapse: separate;
             /* overflow: hidden; */
-            width: 100%;
             background-color: #fff;
             border-radius: 6px;
             border: 1px dashed #788896;
@@ -986,61 +994,78 @@ input[type="file"] {
         }
 
         .tableinbox th {
-            /* overflow: hidden; */
-            text-overflow: ellipsis;
+            min-width: 540px;
+    max-width: 540px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;  /* Add this */
+    box-sizing: border-box;
+    display: block;       /* Add this */
         }
 
         .email-preview-container {
-            width: 100%;
-            height: 60px;
-            /* Adjust as needed */
+
+            position: relative;
+            display: grid;
+            grid-template-columns: .25fr 1.75fr auto;
+            padding: 5px 10px 5px 0px;
+            text-overflow: ellipsis;
             box-sizing: border-box;
+            max-width: 540px;
+
         }
 
         .favicon-container {
-            position: absolute;
+            /* position: absolute; */
             left: 0;
-            top: 50%;
+            /* top: 50%;
             transform: translateY(-50%);
-            width: 50px;
-            text-align: center;
+            width: 50px; */
+            align-items: center;
+            padding: 0px 25px 0px 15px;
         }
 
         .email-content-wrapper {
-            position: absolute;
-            left: 90px;
+            /* position: absolute; 
+            left: 00px;
             right: 0;
             top: 0;
-            bottom: 0;
-            /* overflow: hidden; */
+            bottom: 0; */
+            overflow: hidden;
         }
 
         .sender,
         .subject,
         .preheader {
-            position: absolute;
+            position: relative;
             left: 0;
             right: 0;
             white-space: nowrap;
             overflow: hidden;
             text-overflow: ellipsis;
+            box-sizing: border-box;
+            padding: 2px 0px;
         }
 
         .sender {
-            top: 4px;
+            /* top: 4px; */
             font-weight: bold;
             font-size: 16px;
             color: #333;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
         }
 
         .subject {
-            top: 27px;
+            /* top: 27px; */
             font-weight: bold;
             color: #333;
+            padding-bottom: 0px;
         }
 
         .preheader {
-            top: 47px;
+            /* top: 47px; */
             color: #788896;
             font-weight: 500;
         }
@@ -1065,20 +1090,22 @@ input[type="file"] {
             font-weight: 400;
             color: #888;
             font-size: 12px;
+            position: relative;
+            right: 0;
             padding-right: 20px;
         }
 
         #preview-subject-line,
         #preheader-preview {
             display: block;
-            width: 100%;
+            /* width: 100%; */
             white-space: nowrap;
             /* overflow: hidden; */
             text-overflow: ellipsis;
         }
 
         th {
-            padding: 5px;
+            padding: 0px 5px 5px 5px;
             text-align: left;
         }
 
@@ -1931,8 +1958,8 @@ Only traditional (individual) policies that are in active status may enroll in A
                     <table class="tableinbox" style="
                 font-family: 'roboto', Arial, Helvetica, sans-serif;
               ">
-                        <tbody>
-                            <thead>
+                        
+                            
 
 
 
@@ -1956,8 +1983,7 @@ Only traditional (individual) policies that are in active status may enroll in A
 
                                         <div class="email-preview-container">
                                             <div class="favicon-container" style="display: flex; align-items: center">
-                                                <span
-                                                    style="color: transparent; font-size: 20px; margin: 0px 5px 0px 5px">&#9679;</span>
+                                                
                                                 <img src="https://www.Aflac.com/_Global-Assets/images/favicons/favicon.ico"
                                                     style="width: 42px; height: 42px">
                                             </div>
