@@ -327,16 +327,26 @@ you need to remove position:absolute from 'close' class to fix X's on pop up men
             transition: outline 0.2s ease; */
         }
         
+
+       
         .preview-highlight{
 
-        /* outline: 1px dotted #EBC311; 
-        outline-offset: 5px; */
+        outline: 1px dotted #EBC311; 
+        outline-offset: 5px;
         border-radius: 8px;
         position:relative;
         box-shadow: rgba(236, 236, 14, 0.2) 0px 0px 10px 10px;
         background-color: rgba(236, 236, 14, 0.2);
-
 }
+
+        .preview-highlight-special {
+            outline: 1px dotted #EBC311;
+            outline-offset: -2px;
+            box-shadow: none;
+            border-radius: 4px;
+        }
+
+
 
 
         .input-group.collapsed:hover {
@@ -1514,6 +1524,7 @@ input[type="file"] {
 
 <body>
 
+    
    
     
 
@@ -3644,6 +3655,11 @@ group._mouseenterHandler = () => {
         const toggleElement = group.querySelector('.toggle-container input[type="checkbox"]');
         if (previewSection && (!toggleElement || toggleElement.checked)) {
             previewSection.classList.add('preview-highlight');
+            
+            // Add special class for subject and preheader
+                if (group.closest('.input-group-subandpre')) {
+                previewSection.classList.add('preview-highlight-special');
+            }
         }
     }
 };
@@ -3658,6 +3674,7 @@ group._mouseleaveHandler = () => {
         const previewSection = document.querySelector(previewId);
         if (previewSection) {
             previewSection.classList.remove('preview-highlight');
+            previewSection.classList.remove('preview-highlight-special');
         }
     }
 };
